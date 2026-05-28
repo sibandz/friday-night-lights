@@ -82,32 +82,38 @@ document.addEventListener('DOMContentLoaded', function() {
     { sport: 'hockey', division: 'u13b', teamA: 'HeronBridge College 1', teamB: 'Croyden House', date: '2026-06-05', time: '18:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 1' },
   ];
 
-  function loadData(key, defaultValue) {
+  let teams = [];
+  let fixtures = [];
+
+  async function loadData() {
     try {
-      const storedValue = localStorage.getItem(key);
-      if (storedValue) {
-        const parsed = JSON.parse(storedValue);
-        // Ensure it's a non-empty array before returning
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
-        }
-      }
+      const response = await fetch('/api/get-data');
+      if (!response.ok) throw new Error('Failed to fetch data from server');
+      const data = await response.json();
+      teams = Array.isArray(data.teams) && data.teams.length > 0 ? data.teams : defaultTeams;
+      fixtures = Array.isArray(data.fixtures) && data.fixtures.length > 0 ? data.fixtures : defaultFixtures;
     } catch (e) {
-      console.error(`Failed to load or parse data for ${key} from localStorage. Using default data.`, e);
+      console.error("Could not load server data, using defaults.", e);
+      teams = defaultTeams;
+      fixtures = defaultFixtures;
     }
-    return defaultValue;
   }
 
-  let teams = loadData(FNL_TEAMS_KEY, defaultTeams);
-  let fixtures = loadData(FNL_FIXTURES_KEY, defaultFixtures);
-
-  function saveData() {
+  async function saveData() {
     try {
-      localStorage.setItem(FNL_TEAMS_KEY, JSON.stringify(teams));
-      localStorage.setItem(FNL_FIXTURES_KEY, JSON.stringify(fixtures));
+      const response = await fetch('/api/save-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teams, fixtures, password: PASSWORD }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Server responded with an error');
+      }
     } catch (e) {
-      console.error("Failed to save data to localStorage", e);
-      alert("Error: Could not save data. Your browser's storage might be full or disabled.");
+      console.error("Failed to save data to server", e);
+      alert(`Error: Could not save data to the server. ${e.message}. Your changes have NOT been saved.`);
     }
   }
 
@@ -207,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
   window.deleteFixture = function(idx) {
     if (confirm('Delete this fixture?')) {
       fixtures.splice(idx, 1);
-      saveData(); // This is now async
+      saveData();
       renderFixtures();
     }
   };
@@ -230,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.style.display = 'none';
   };
 
-  modalForm.onsubmit = async function(e) {
+  modalForm.onsubmit = function(e) {
     e.preventDefault();
     const newFixture = {
       sport: document.getElementById('modal-sport').value,
@@ -254,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       fixtures[editingIndex] = newFixture;
     }
-    await saveData();
+    saveData();
     renderFixtures();
     closeModal();
   };
@@ -301,18 +307,18 @@ document.addEventListener('DOMContentLoaded', function() {
   window.deleteTeam = function(id) {
     if(confirm("Are you sure you want to remove this team?")) {
       teams = teams.filter(t => t.id !== id);
-      saveData(); // This is now async
+      saveData();
       renderTeams();
     }
   };
 
-  document.getElementById('add-team-form').onsubmit = function(e) {
+  document.getElementById('add-team-form').onsubmit = async function(e) {
     e.preventDefault();
     const name = document.getElementById('team-name').value;
     const sport = document.getElementById('team-sport').value;
     const division = document.getElementById('team-division').value;
     teams.push({ id: Date.now(), name, sport, division });
-    saveData(); // This is now async
+    await saveData();
     document.getElementById('team-name').value = '';
     renderTeams();
   };
