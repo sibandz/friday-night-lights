@@ -108,12 +108,19 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Server responded with an error');
+        let errorMessage = `Server responded with status: ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.details || errorData.error || errorMessage;
+        } catch (jsonError) {
+          // The response was not JSON. It might be an HTML error page.
+          console.error("Could not parse error response as JSON.", jsonError);
+        }
+        throw new Error(errorMessage);
       }
     } catch (e) {
       console.error("Failed to save data to server", e);
-      alert(`Error: Could not save data to the server. ${e.message}. Your changes have NOT been saved.`);
+      alert(`Error: Could not save data. ${e.message}. Your changes have NOT been saved.`);
     }
   }
 
@@ -210,10 +217,10 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.style.display = 'flex';
   };
 
-  window.deleteFixture = function(idx) {
+  window.deleteFixture = async function(idx) {
     if (confirm('Delete this fixture?')) {
       fixtures.splice(idx, 1);
-      saveData();
+      await saveData();
       renderFixtures();
     }
   };
@@ -236,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.style.display = 'none';
   };
 
-  modalForm.onsubmit = function(e) {
+  modalForm.onsubmit = async function(e) {
     e.preventDefault();
     const newFixture = {
       sport: document.getElementById('modal-sport').value,
@@ -260,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       fixtures[editingIndex] = newFixture;
     }
-    saveData();
+    await saveData();
     renderFixtures();
     closeModal();
   };
@@ -304,10 +311,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  window.deleteTeam = function(id) {
+  window.deleteTeam = async function(id) {
     if(confirm("Are you sure you want to remove this team?")) {
       teams = teams.filter(t => t.id !== id);
-      saveData();
+      await saveData();
       renderTeams();
     }
   };
