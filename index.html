@@ -1243,19 +1243,18 @@
       if (!grid) return;
 
       let fixtures = [];
-      const storedFixtures = localStorage.getItem(FNL_FIXTURES_KEY);
-
-      if (storedFixtures) {
-        try {
+      try {
+        const storedFixtures = localStorage.getItem(FNL_FIXTURES_KEY);
+        if (storedFixtures) {
           const parsed = JSON.parse(storedFixtures);
-          if (Array.isArray(parsed)) {
+          if (Array.isArray(parsed) && parsed.length > 0) {
             fixtures = parsed;
           }
-        } catch (e) {
-          console.error("Could not parse fixtures from localStorage", e);
         }
+      } catch (e) {
+        console.error("Could not access or parse fixtures from localStorage. Using default fixtures.", e);
       }
-
+      
       // If storage is empty or invalid, use fallback
       if (fixtures.length === 0) {
         fixtures = [

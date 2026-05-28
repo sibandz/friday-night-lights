@@ -86,8 +86,24 @@ document.addEventListener('DOMContentLoaded', function() {
     { sport: 'hockey', division: 'u13b', teamA: 'HeronBridge College 1', teamB: 'Croyden House', date: '2026-06-05', time: '18:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 1' },
   ];
 
-  let teams = JSON.parse(localStorage.getItem(FNL_TEAMS_KEY)) || defaultTeams;
-  let fixtures = JSON.parse(localStorage.getItem(FNL_FIXTURES_KEY)) || defaultFixtures;
+  function loadData(key, defaultValue) {
+    try {
+      const storedValue = localStorage.getItem(key);
+      if (storedValue) {
+        const parsed = JSON.parse(storedValue);
+        // Ensure it's a non-empty array before returning
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.error(`Failed to load or parse data for ${key} from localStorage. Using default data.`, e);
+    }
+    return defaultValue;
+  }
+
+  let teams = loadData(FNL_TEAMS_KEY, defaultTeams);
+  let fixtures = loadData(FNL_FIXTURES_KEY, defaultFixtures);
 
   function saveData() {
     try {
