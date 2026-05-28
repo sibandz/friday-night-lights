@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'SF Pro';
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource-variable/sf-pro-display/files/sf-pro-display-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  --font-sfpro: 'SF Pro', 'San Francisco', 'Segoe UI', Arial, sans-serif;
+}

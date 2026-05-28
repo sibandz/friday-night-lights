@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Friday Night Lights 2025</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="sf-pro.css" />
+
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --black:   #080808;
+      --dark:    #0f0f0f;
+      --card:    #141414;
+      --border:  #222222;
+      --glass-bg: rgba(20, 20, 20, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --gold:    #f5c518;
+      --amber:   #ff8c00;
+      --white:   #f0ede6;
+      --muted:   #888888;
+      --netball: #e84393;
+      --hockey:  #00bfff;
+      --football:#f5c518;
+
+      --font-display: 'Bebas Neue', var(--font-sfpro), sans-serif;
+      --font-head:    'Barlow Condensed', var(--font-sfpro), sans-serif;
+      --font-body:    var(--font-sfpro), 'Barlow', sans-serif;
+    }
+
+    /* ── LIGHT/DARK MODE ───────────────────────────── */
+    body.light-mode {
+      --black:   #f0ede6;
+      --dark:    #e8e5de;
+      --card:    #ffffff;
+      --border:  #dcd9d2;
+      --glass-bg: rgba(255, 255, 255, 0.65);
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --white:   #080808;
+      --muted:   #666666;
+    }
+    body.light-mode nav { background: linear-gradient(to bottom, rgba(240,237,230,0.95), transparent); }
+    body.light-mode .btn-primary, 
+    body.light-mode .register-form button { color: #080808; }
+    body.light-mode .btn-icon:hover { background: rgba(0,0,0,0.05); }
+    body.light-mode #hero::after {
+      background:
+        radial-gradient(ellipse 18% 60% at 20% 0%, rgba(245,197,24,0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 18% 60% at 80% 0%, rgba(245,197,24,0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 8% 40%  at 50% 0%, rgba(245,197,24,0.15) 0%, transparent 60%);
+    }
+    body.light-mode #register::before { background: radial-gradient(circle, rgba(245,197,24,0.15) 0%, transparent 70%); }
+    body.light-mode .register-tagline .dim { color: rgba(0,0,0,0.15); }
+    body.light-mode .division-pill { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.05); }
+    body.light-mode .schedule-table td { border-bottom-color: rgba(0,0,0,0.05); }
+    body.light-mode .schedule-table tr:hover td { background: rgba(0,0,0,0.03); }
+    body.light-mode .fixture-type { background: rgba(0,0,0,0.05); }
+
+    /* ── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NOISE OVERLAY ──────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+    }
+    /* ── TECH GRID OVERLAY ──────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: linear-gradient(var(--glass-border) 1px, transparent 1px),
+                        linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* ── LAYOUT ─────────────────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+    section { padding: 100px 0; }
+
+    /* ── NAV ────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 18px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(8,8,8,0.95), transparent);
+      backdrop-filter: blur(4px);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+      color: var(--gold);
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+    .btn-icon {
+      background: transparent; border: none; color: inherit; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      padding: 8px; border-radius: 6px; transition: background 0.2s;
+    }
+    .btn-icon:hover { background: rgba(255,255,255,0.05); }
+    
+    .btn-outline {
+      font-family: var(--font-head); font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 8px 16px; border-radius: 6px;
+      background: transparent; color: var(--white); border: 1px solid var(--border);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* stadium-light beams */
+    #hero::after {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200%;
+      height: 130%;
+      background:
+        radial-gradient(ellipse 18% 60% at 20% 0%, rgba(245,197,24,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 18% 60% at 80% 0%, rgba(245,197,24,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 8% 40%  at 50% 0%, rgba(245,197,24,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative; z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: center;
+      width: 100%;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block; width: 36px; height: 2px;
+      background: var(--gold);
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 12vw, 11rem);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--white);
+    }
+    .hero-title .accent {
+      background: linear-gradient(90deg, var(--gold), var(--amber));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: var(--gold);
+    }
+    .hero-subtitle {
+      margin-top: 28px;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      margin-top: 40px;
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    .btn-primary {
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      background: var(--gold);
+      color: var(--black);
+      border: none; cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #ffd740; transform: translateY(-2px); }
+    .btn-ghost {
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 13px 32px;
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* hero date card */
+    .hero-date-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 32px 28px;
+      min-width: 200px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-date-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--amber));
+    }
+    .date-day {
+      font-family: var(--font-display);
+      font-size: 5rem;
+      line-height: 1;
+      color: var(--gold);
+    }
+    .date-month {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-top: 4px;
+    }
+    .date-time {
+      font-family: var(--font-head);
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .date-time strong {
+      display: block;
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-top: 4px;
+    }
+    .date-venue {
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+    .date-venue strong { display: block; color: var(--white); margin-top: 2px; font-weight: 600; }
+
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      font-family: var(--font-head);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .scroll-hint .arrow { animation: bounce 1.6s infinite; }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+
+    /* ── SECTION HEADING ────────────────────────────────── */
+    .section-label {
+      font-family: var(--font-head);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before { content: ''; display: block; width: 28px; height: 2px; background: var(--gold); }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+    .section-desc {
+      margin-top: 16px;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.75;
+      font-size: 1rem;
+    }
+
+    /* ── SPORTS ─────────────────────────────────────────── */
+    #sports { padding-top: 80px; }
+    .sports-header { margin-bottom: 60px; }
+    .sports-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .sport-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s;
+      cursor: pointer;
+    }
+    .sport-card:hover { transform: translateY(-4px); }
+    .sport-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .sport-card.netball::before  { background: linear-gradient(90deg, var(--netball), #ff67b5); }
+    .sport-card.hockey::before   { background: linear-gradient(90deg, var(--hockey), #66d9ff); }
+    .sport-card.football::before { background: linear-gradient(90deg, var(--football), var(--amber)); }
+    .sport-card.netball:hover  { border-color: var(--netball); }
+    .sport-card.hockey:hover   { border-color: var(--hockey); }
+    .sport-card.football:hover { border-color: var(--football); }
+
+    /* glow blob */
+    .sport-card::after {
+      content: '';
+      position: absolute;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      top: -40px; right: -40px;
+      opacity: 0.06;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .sport-card.netball::after  { background: var(--netball); }
+    .sport-card.hockey::after   { background: var(--hockey); }
+    .sport-card.football::after { background: var(--football); }
+    .sport-card:hover::after { opacity: 0.12; }
+
+    .sport-icon-svg {
+      width: 44px; height: 44px;
+      margin-bottom: 20px;
+      display: block;
+      color: var(--white);
+    }
+    .sport-name {
+      font-family: var(--font-display);
+      font-size: 2.6rem;
+      letter-spacing: 0.03em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .sport-card.netball  .sport-name { color: var(--netball); }
+    .sport-card.hockey   .sport-name { color: var(--hockey); }
+    .sport-card.football .sport-name { color: var(--football); }
+
+    .sport-gender {
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .divisions {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .division-pill {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .division-pill:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
+    body.light-mode .division-pill:hover { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.1); }
+    .division-pill .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .sport-card.netball  .dot { background: var(--netball); }
+    .sport-card.hockey   .dot { background: var(--hockey); }
+    .sport-card.football .dot { background: var(--football); }
+    .division-pill span {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--white);
+    }
+    .division-pill small {
+      margin-left: auto;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── SCHEDULE ───────────────────────────────────────── */
+    #schedule { background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .schedule-header { margin-bottom: 56px; }
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .schedule-table thead tr {
+      border-bottom: 1px solid var(--border);
+    }
+    .schedule-table th {
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 12px 20px;
+      text-align: left;
+    }
+    .schedule-table td {
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.95rem;
+      vertical-align: middle;
+    }
+    .schedule-table tr:last-child td { border-bottom: none; }
+    .schedule-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .time-badge {
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .sport-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: var(--font-head);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: 2px;
+    }
+    .sport-badge.netball  { background: rgba(232,67,147,0.15); color: var(--netball); border: 1px solid rgba(232,67,147,0.3); }
+    .sport-badge.hockey   { background: rgba(0,191,255,0.12); color: var(--hockey);   border: 1px solid rgba(0,191,255,0.3); }
+    .sport-badge.football { background: rgba(245,197,24,0.12); color: var(--football); border: 1px solid rgba(245,197,24,0.3); }
+    .division-name { font-weight: 400; color: var(--muted); }
+    .venue-name {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* ── INFO STRIP ─────────────────────────────────────── */
+    #info { padding: 70px 0; }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 600px;
+      margin: 0 auto;
+      gap: 24px;
+    }
+    .info-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 32px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .info-card::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .info-card:hover::before { opacity: 1; }
+    .info-icon { display: flex; justify-content: center; margin-bottom: 14px; color: var(--gold); }
+    .info-icon i { width: 32px; height: 32px; stroke-width: 1.5px; }
+    .info-value {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .info-label {
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── RULES ──────────────────────────────────────────── */
+    #rules { background: var(--dark); border-top: 1px solid var(--border); }
+    .rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; }
+    .rule-block {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 36px 32px;
+    }
+    .rule-block-title {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .rule-block-title .icon { display: flex; align-items: center; color: var(--gold); }
+    .rule-icon-svg { width: 20px; height: 20px; }
+    .rule-block-title .icon i { width: 20px; height: 20px; stroke-width: 2px; }
+    .rule-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .rule-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .rule-list li::before {
+      content: '—';
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .rule-content { display: flex; flex-direction: column; gap: 2px; }
+    .rule-label {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    body.light-mode .rule-label { color: var(--black); }
+    .rule-text { line-height: 1.6; }
+
+    /* ── REGISTRATION CTA ───────────────────────────────── */
+    #register {
+      text-align: center;
+      padding: 120px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    #register::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,197,24,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .register-inner { position: relative; z-index: 1; }
+    .register-tagline {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 7rem);
+      line-height: 0.95;
+      margin-bottom: 24px;
+    }
+    .register-tagline .dim { color: var(--border); }
+    .register-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 40px;
+      line-height: 1.75;
+    }
+    .register-form {
+      display: flex;
+      gap: 0;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .register-form input {
+      flex: 1;
+      padding: 14px 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-right: none;
+      border-radius: 6px 0 0 6px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .register-form input::placeholder { color: var(--muted); }
+    .register-form input:focus { border-color: var(--gold); }
+    .register-form button {
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 26px;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      border-radius: 0 6px 6px 0;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .register-form button:hover { background: #ffd740; }
+    .register-note {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0 36px;
+    }
+    .footer-inner {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 40px; flex-wrap: wrap;
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: 0.06em;
+      color: var(--gold);
+    }
+    .footer-logo span { color: var(--white); }
+    .footer-tagline { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+    .footer-col h4 {
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-col li { font-size: 0.88rem; color: var(--muted); }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: var(--muted); }
+    .footer-sports {
+      display: flex; gap: 10px;
+    }
+    .footer-sports span {
+      font-family: var(--font-head);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ── DIVIDER ────────────────────────────────────────── */
+    .rule { height: 1px; background: var(--border); margin: 0; border: none; }
+
+    /* ── ANIMATE IN ─────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* stagger children */
+    .stagger > * { opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .stagger.visible > *:nth-child(1) { opacity:1; transform:translateY(0); transition-delay:0s; }
+    .stagger.visible > *:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:0.1s; }
+    .stagger.visible > *:nth-child(3) { opacity:1; transform:translateY(0); transition-delay:0.2s; }
+    .stagger.visible > *:nth-child(4) { opacity:1; transform:translateY(0); transition-delay:0.3s; }
+
+    /* ── HERO ANIMATE ────────────────────────────────────── */
+    .hero-eyebrow  { animation: fadeUp 0.7s 0.2s both; }
+    .hero-title    { animation: fadeUp 0.7s 0.35s both; }
+    .hero-subtitle { animation: fadeUp 0.6s 0.55s both; }
+    .hero-actions  { animation: fadeUp 0.6s 0.7s both; }
+    .hero-date-card { animation: fadeUp 0.7s 0.5s both; }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(22px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ── MOBILE ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .sports-grid { grid-template-columns: 1fr; }
+      .rules-grid  { grid-template-columns: 1fr; }
+      .hero-inner  { grid-template-columns: 1fr; }
+      .hero-date-card { display: none; }
+      .nav-links { display: none; }
+      .schedule-table td:nth-child(4), .schedule-table th:nth-child(4) { display: none; }
+    }
+
+    /* ── SCHEDULE FILTERS ───────────────────────────────── */
+    .schedule-filter-bar {
+      display: flex; gap: 12px; margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--muted);
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { color: var(--white); border-color: var(--border); }
+    body.light-mode .filter-btn:hover { color: var(--black); border-color: var(--border); }
+    .filter-btn.active { background: var(--gold); color: var(--black); border-color: var(--gold); }
+    body.light-mode .filter-btn.active { color: var(--black); }
+
+    @media (max-width: 600px) {
+      .info-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAV ─────────────────────────────────────────────── -->
+  <nav>
+    <div class="nav-logo">FNL<span>'25</span></div>
+    <div class="nav-links">
+      <a href="#sports">Sports</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#rules">Rules</a>
+    </div>
+    <div class="nav-actions">
+      <button id="mode-toggle" class="btn-icon" aria-label="Toggle dark mode"><i data-lucide="moon"></i></button>
+      <button id="admin-btn" class="btn-outline">Manage</button>
+    </div>
+  </nav>
+
+  <!-- ── HERO ────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-eyebrow">Annual Sporting Event · 2025</div>
+          <h1 class="hero-title">
+            FRIDAY<br>
+            <span class="accent">NIGHT</span><br>
+            LIGHTS
+          </h1>
+          <p class="hero-subtitle">
+            Three sports. Eight age divisions. One unforgettable evening under the lights.
+            Netball, Hockey &amp; Football — all on one night.
+          </p>
+          <div class="hero-actions">
+            <a href="#sports" class="btn-primary">View All Divisions</a>
+          </div>
+        </div>
+
+        <div class="hero-date-card">
+          <!-- ✏️ EDIT: Change date/time/venue here -->
+          <div class="date-day">TBC</div>
+          <div class="date-month">2025</div>
+          <div class="date-time">
+            Kick-off
+            <strong>17:00</strong>
+          </div>
+          <div class="date-venue">
+            Venue
+            <strong>TBC</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      Scroll
+      <span class="arrow">↓</span>
+    </div>
+  </section>
+
+  <!-- ── SPORTS ───────────────────────────────────────────── -->
+  <section id="sports">
+    <div class="container">
+      <div class="sports-header fade-up">
+        <div class="section-label">Competing Sports</div>
+        <h2 class="section-title">DIVISIONS &amp; CATEGORIES</h2>
+        <p class="section-desc">Each sport runs its own independent bracket. Find your division below and make sure your team is registered before the deadline.</p>
+      </div>
+
+      <div class="sports-grid stagger">
+
+        <!-- NETBALL -->
+        <div class="sport-card netball" onclick="filterSchedule('netball', 'all')">
+          <svg class="sport-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 0 20M2 12a15.3 15.3 0 0 1 20 0"/></svg>
+          <div class="sport-name">NETBALL</div>
+          <div class="sport-gender">Girls Only</div>
+          <div class="divisions">
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('netball', 'u11')">
+              <span class="dot"></span>
+              <span>Girls U11</span>
+              <small>Under 11</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('netball', 'u13')">
+              <span class="dot"></span>
+              <span>Girls U13</span>
+              <small>Under 13</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('netball', 'u19')">
+              <span class="dot"></span>
+              <span>Girls U19</span>
+              <small>Under 19</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOCKEY -->
+        <div class="sport-card hockey" onclick="filterSchedule('hockey', 'all')">
+          <svg class="sport-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2v14a5 5 0 0 1-5 5H8a2 2 0 0 1 0-4h2a1 1 0 0 0 1-1V2Z"/></svg>
+          <div class="sport-name">HOCKEY</div>
+          <div class="sport-gender">Girls &amp; Boys U13</div>
+          <div class="divisions">
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('hockey', 'u13g')">
+              <span class="dot"></span>
+              <span>Girls U13</span>
+              <small>Under 13</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('hockey', 'u13b')">
+              <span class="dot"></span>
+              <span>Boys U13</span>
+              <small>Under 13</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- FOOTBALL -->
+        <div class="sport-card football" onclick="filterSchedule('football', 'all')">
+          <svg class="sport-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 12 7.5 9.5M12 12l4.5-2.5M12 12v5M7.5 9.5 8 4M16.5 9.5 16 4M12 17l-4.5 2.5M12 17l4.5 2.5"/></svg>
+          <div class="sport-name">FOOTBALL</div>
+          <div class="sport-gender">Boys &amp; Girls</div>
+          <div class="divisions">
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u11b')">
+              <span class="dot"></span>
+              <span>Boys U11</span>
+              <small>Under 11</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u13b')">
+              <span class="dot"></span>
+              <span>Boys U13</span>
+              <small>Under 13</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u19b')">
+              <span class="dot"></span>
+              <span>Boys U19</span>
+              <small>Under 19</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u19g')">
+              <span class="dot"></span>
+              <span>Girls U19</span>
+              <small>Under 19</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INFO STRIP ────────────────────────────────────────── -->
+  <section id="info">
+    <div class="container">
+      <div class="info-grid stagger">
+        <div class="info-card">
+          <div class="info-icon"><i data-lucide="medal"></i></div>
+          <div class="info-value">3</div>
+          <div class="info-label">Sports</div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon"><i data-lucide="zap"></i></div>
+          <div class="info-value">8</div>
+          <div class="info-label">Divisions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SCHEDULE ──────────────────────────────────────────── -->
+  <section id="schedule">
+    <div class="container">
+      <div class="schedule-header fade-up">
+        <div class="section-label">Programme</div>
+        <h2 class="section-title">SCHEDULE OF PLAY</h2>
+        <p class="section-desc">Indicative time slots — festival format, no finals. All teams play multiple matches. Times subject to change.</p>
+        <div class="schedule-filter-bar">
+          <button class="filter-btn active" data-sport="all" onclick="filterSchedule('all', 'all')">All Sports</button>
+          <button class="filter-btn" data-sport="netball" onclick="filterSchedule('netball', 'all')">Netball</button>
+          <button class="filter-btn" data-sport="hockey" onclick="filterSchedule('hockey', 'all')">Hockey</button>
+          <button class="filter-btn" data-sport="football" onclick="filterSchedule('football', 'all')">Football</button>
+        </div>
+      </div>
+      <div class="fixture-cards-grid"></div>
+    </div>
+  </section>
+  <style>
+    .fixture-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+    .fixture-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+      padding: 28px 24px 18px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      min-width: 0;
+    }
+    .fixture-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .fixture-team {
+      flex: 1;
+      text-align: center;
+      color: var(--white);
+    }
+    .fixture-vs {
+      font-weight: 700;
+      color: var(--gold);
+      margin: 0 8px;
+      font-size: 1.1rem;
+    }
+    .fixture-card-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .fixture-status.upcoming {
+      background: linear-gradient(90deg, #a7aaff 0%, #e0e7ff 100%);
+      color: #3a3a6a;
+      border-radius: 8px;
+      padding: 2px 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      box-shadow: 0 1px 4px rgba(80,80,120,0.08);
+    }
+    .fixture-type {
+      background: rgba(255,255,255,0.04);
+      border-radius: 8px;
+      padding: 2px 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+    }
+    .fixture-card-date {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    @media (max-width: 900px) {
+      .fixture-cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- ── RULES ─────────────────────────────────────────────── -->
+  <section id="rules">
+    <div class="container">
+      <div class="fade-up">
+        <div class="section-label">Regulations</div>
+        <h2 class="section-title">RULES &amp; GUIDELINES</h2>
+        <p class="section-desc">Please review all rules before registering. Coaches and team managers are responsible for communicating these to players.</p>
+      </div>
+
+      <!-- ✏️ EDIT: Add your actual rules here -->
+      <div class="rules-grid stagger">
+        <div class="rule-block">
+          <div class="rule-block-title"><span class="icon"><i data-lucide="clipboard-list"></i></span> General Tournament Rules</div>
+          <ul class="rule-list">
+            <li>Umpires and referees are arranged for all matches.</li>
+            <li>Teams will have 1 minute to vacate the playing area after the match before the next matches start.</li>
+            <li>We request that teams do the congratulatory handshakes after the match outside the playing area.</li>
+            <li>There is no entry fee for the event. See you there!</li>
+          </ul>
+        </div>
+
+        <div class="rule-block">
+          <div class="rule-block-title"><span class="icon"><svg class="rule-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 12 7.5 9.5M12 12l4.5-2.5M12 12v5M7.5 9.5 8 4M16.5 9.5 16 4M12 17l-4.5 2.5M12 17l4.5 2.5"/></svg></span> Football Format: Fusion 5</div>
+          <ul class="rule-list">
+            <li><div class="rule-content"><span class="rule-label">Team Size</span><span class="rule-text">Infield players: 4, Goalkeeper: 1, Reserve: 1.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Match Length</span><span class="rule-text">Two halves of 5 minutes each, with a 1-minute interval in between.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Game Rules</span><span class="rule-text">Rolling substitutions can be made at any stage during the game; there is no need to wait for a timeout.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Scoring</span><span class="rule-text">Goals can be scored from anywhere on the turf. Standard rules: All normal FIFA rules will be followed.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Power Play</span><span class="rule-text">The final two minutes of the match will be a power play format where all goals scored secure double points.</span></div></li>
+          </ul>
+        </div>
+
+        <div class="rule-block">
+          <div class="rule-block-title"><span class="icon"><svg class="rule-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 0 20M2 12a15.3 15.3 0 0 1 20 0"/></svg></span> Netball Format: Flash 5</div>
+          <ul class="rule-list">
+            <li><div class="rule-content"><span class="rule-label">Team Size</span><span class="rule-text">Total players: 6 players. On court: 5 players on the court at all times.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Shooters</span><span class="rule-text">GA (Goal Attack) and GS (Goal Shooter) are the only players who can shoot. There are different shooting zones, meaning teams can score up to three points with any one shot.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Match Length</span><span class="rule-text">Two halves of 5 minutes each, with a 1-minute interval in between.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Game Rules</span><span class="rule-text">Rolling substitutions can be made at any stage during the game; there is no need to wait for a timeout.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Scoring</span><span class="rule-text">Goals outside of the shooting circle: 3 points. Shoot in the outer circle: 2 points. Score under the post: 1 point.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Power Play</span><span class="rule-text">The final two minutes of the match will be a power play format where all goals scored secure double points.</span></div></li>
+          </ul>
+        </div>
+
+        <div class="rule-block">
+          <div class="rule-block-title"><span class="icon"><svg class="rule-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2v14a5 5 0 0 1-5 5H8a2 2 0 0 1 0-4h2a1 1 0 0 0 1-1V2Z"/></svg></span> Hockey Format: Fantastic 5</div>
+          <ul class="rule-list">
+            <li><div class="rule-content"><span class="rule-label">Team Size</span><span class="rule-text">Infield players: 4, Goalkeeper: 1, Reserve: 1.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Match Length</span><span class="rule-text">Two halves of 5 minutes each, with a 1-minute interval in between.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Game Rules</span><span class="rule-text">Rolling substitutions can be made at any stage during the game; there is no need to wait for a timeout. Restrictions: Lifting of the ball is not permitted.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Scoring</span><span class="rule-text">Goals can be scored from anywhere on the turf. Standard rules: All normal FIH (International Hockey Federation) rules will be followed.</span></div></li>
+            <li><div class="rule-content"><span class="rule-label">Power Play</span><span class="rule-text">Teams select when they want to make use of this, and it lasts for two minutes. During this time, all goals scored secure double points, meaning the tables can turn from winning to losing, or vice versa, very rapidly. Each team is only allowed one Power Play during a fixture.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- ── FOOTER ────────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-logo">FNL<span>'25</span></div>
+          <div class="footer-tagline">Hosted by HeronBridge College</div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Sports</h4>
+          <ul>
+            <li>Netball</li>
+            <li>Hockey</li>
+            <li>Football</li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="#sports">Divisions</a></li>
+            <li><a href="#schedule">Schedule</a></li>
+            <li><a href="#rules">Rules</a></li>
+            <li><a href="admin.html" target="_blank">Manager</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 Friday Night Lights — All rights reserved.</p>
+        <div class="footer-sports">
+          <span>Netball</span>
+          <span>Hockey</span>
+          <span>Football</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── SCROLL ANIMATIONS ─────────────────────────────────── -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    // Animate in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up, .stagger').forEach(el => observer.observe(el));
+
+    // Light/Dark mode toggle
+    const modeBtn = document.getElementById('mode-toggle');
+    modeBtn.onclick = function() {
+      document.body.classList.toggle('light-mode');
+      const isLight = document.body.classList.contains('light-mode');
+      modeBtn.innerHTML = isLight ? '<i data-lucide="sun"></i>' : '<i data-lucide="moon"></i>';
+      lucide.createIcons();
+    };
+
+    // Admin button opens admin.html in new tab
+    document.getElementById('admin-btn').onclick = function() {
+      window.open('admin.html', '_blank');
+    };
+
+    // Filter Schedule
+    window.filterSchedule = function(sport, division = 'all') {
+      // Update filter bar UI
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-sport') === sport || (sport !== 'all' && btn.getAttribute('data-sport') === sport)) {
+          btn.classList.add('active');
+        }
+      });
+      const activeBtn = document.querySelector(`.filter-btn[data-sport="${sport}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Filter fixture cards
+      const cards = document.querySelectorAll('.fixture-card');
+      cards.forEach(card => {
+        const cardSport = card.getAttribute('data-sport');
+        const cardDiv = card.getAttribute('data-division');
+        
+        let match = true;
+        if (sport !== 'all' && cardSport !== sport) match = false;
+        if (division !== 'all' && cardDiv !== division) match = false;
+        card.style.display = match ? 'flex' : 'none';
+      });
+
+      // Smooth scroll to the schedule block
+      const scheduleSection = document.getElementById('schedule');
+      const yOffset = -80; // Offset for sticky nav
+      const y = scheduleSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    };
+
+    // --- DYNAMIC FIXTURE RENDERING ---
+    function renderPublicFixtures() {
+      const FNL_FIXTURES_KEY = 'fnl_fixtures';
+      const grid = document.querySelector('.fixture-cards-grid');
+      if (!grid) return;
+
+      const storedFixtures = localStorage.getItem(FNL_FIXTURES_KEY);
+      let fixtures = [];
+
+      if (storedFixtures) {
+        fixtures = JSON.parse(storedFixtures);
+      } else {
+        // Fallback to default fixtures if none in storage
+        fixtures = [
+          { sport: 'football', division: 'u19b', teamA: 'Northriding College', teamB: 'HeronBridge', date: '2026-06-05', time: '17:00', status: 'upcoming', type: 'Pool A', venue: 'Main Field' },
+          { sport: 'football', division: 'u11b', teamA: 'HeronBridge Gold', teamB: 'Croyden House', date: '2026-06-05', time: '17:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 2' },
+          { sport: 'netball', division: 'u19', teamA: 'Cooper College', teamB: 'Northriding College', date: '2026-06-05', time: '17:45', status: 'upcoming', type: 'Pool A', venue: 'Court 1' },
+          { sport: 'netball', division: 'u13', teamA: 'Croyden House', teamB: 'HeronBridge College 2', date: '2026-06-05', time: '18:00', status: 'upcoming', type: 'Pool C', venue: 'Court 3' },
+          { sport: 'hockey', division: 'u13g', teamA: 'HeronBridge College 2', teamB: 'Cooper College', date: '2026-06-05', time: '18:15', status: 'upcoming', type: 'Pool A', venue: 'Astro 1' },
+          { sport: 'hockey', division: 'u13b', teamA: 'HeronBridge College 1', teamB: 'Croyden House', date: '2026-06-05', time: '18:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 1' },
+        ];
+      }
+
+      grid.innerHTML = ''; // Clear existing
+      
+      if (fixtures.length === 0) {
+        grid.innerHTML = '<p style="color: var(--muted); grid-column: 1 / -1; text-align: center;">No fixtures have been scheduled yet. Please check back later.</p>';
+        return;
+      }
+
+      const sportDivisions = {
+        football: [ {v: 'u11b', t: 'Boys U11'}, {v: 'u13b', t: 'Boys U13'}, {v: 'u19b', t: 'Boys U19'}, {v: 'u19g', t: 'Girls U19'} ],
+        netball: [ {v: 'u11', t: 'Girls U11'}, {v: 'u13', t: 'Girls U13'}, {v: 'u19', t: 'Girls U19'} ],
+        hockey: [ {v: 'u13g', t: 'Girls U13'}, {v: 'u13b', t: 'Boys U13'} ]
+      };
+
+      fixtures.sort((a, b) => (a.time || '99:99').localeCompare(b.time || '99:99'));
+
+      fixtures.forEach(fx => {
+        const safeSport = fx.sport || 'football';
+        const badgeText = `${safeSport.charAt(0).toUpperCase() + safeSport.slice(1)} ${fx.division.toUpperCase()}`;
+        
+        const d = new Date(fx.date);
+        const formattedDate = d.toLocaleDateString('en-ZA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+        const cardHTML = `
+          <div class="fixture-card" data-sport="${fx.sport}" data-division="${fx.division}">
+            <div class="fixture-card-header">
+              <span class="fixture-team"><b>${fx.teamA}</b></span>
+              <span class="fixture-vs">VS</span>
+              <span class="fixture-team"><b>${fx.teamB}</b></span>
+            </div>
+            <div class="fixture-card-meta">
+              <span class="fixture-status upcoming">${fx.time || 'TBD'}</span>
+              <span class="sport-badge ${safeSport}">${badgeText}</span>
+              <span class="fixture-type">${fx.type || 'Pool'}</span>
+            </div>
+            <div class="fixture-card-date">${formattedDate} • ${fx.venue || 'TBC'}</div>
+          </div>
+        `;
+        grid.innerHTML += cardHTML;
+      });
+    }
+
+    // Initial render on page load
+    renderPublicFixtures();
+
+    // Listen for changes from other tabs (the admin panel)
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'fnl_fixtures') {
+        renderPublicFixtures();
+      }
+    });
+  </script>
+
+</body>
+</html>
