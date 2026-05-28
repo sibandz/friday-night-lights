@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Friday Night Lights 2025</title>
+  <title>Friday Night Lights 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -805,7 +805,7 @@
 
   <!-- ── NAV ─────────────────────────────────────────────── -->
   <nav>
-    <div class="nav-logo">FNL<span>'25</span></div>
+    <div class="nav-logo">FNL<span>'26</span></div>
     <div class="nav-links">
       <a href="#sports">Sports</a>
       <a href="#schedule">Schedule</a>
@@ -822,7 +822,7 @@
     <div class="container">
       <div class="hero-inner">
         <div class="hero-content">
-          <div class="hero-eyebrow">Annual Sporting Event · 2025</div>
+          <div class="hero-eyebrow">Annual Sporting Event · 2026</div>
           <h1 class="hero-title">
             FRIDAY<br>
             <span class="accent">NIGHT</span><br>
@@ -839,8 +839,8 @@
 
         <div class="hero-date-card">
           <!-- ✏️ EDIT: Change date/time/venue here -->
-          <div class="date-day">TBC</div>
-          <div class="date-month">2025</div>
+          <div class="date-day">05</div>
+          <div class="date-month">JUNE 2026</div>
           <div class="date-time">
             Kick-off
             <strong>17:00</strong>
@@ -896,7 +896,7 @@
 
         <!-- HOCKEY -->
         <div class="sport-card hockey" onclick="filterSchedule('hockey', 'all')">
-          <svg class="sport-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2v14a5 5 0 0 1-5 5H8a2 2 0 0 1 0-4h2a1 1 0 0 0 1-1V2Z"/></svg>
+          <svg class="sport-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 22a2.5 2.5 0 0 1-4-3.5l8-8a2.5 2.5 0 0 1 3.5 4l-7.5 7.5Z"/><circle cx="6" cy="6" r="2"/></svg>
           <div class="sport-name">HOCKEY</div>
           <div class="sport-gender">Girls &amp; Boys U13</div>
           <div class="divisions">
@@ -1104,7 +1104,7 @@
         </div>
 
         <div class="rule-block">
-          <div class="rule-block-title"><span class="icon"><svg class="rule-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2v14a5 5 0 0 1-5 5H8a2 2 0 0 1 0-4h2a1 1 0 0 0 1-1V2Z"/></svg></span> Hockey Format: Fantastic 5</div>
+          <div class="rule-block-title"><span class="icon"><svg class="rule-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 22a2.5 2.5 0 0 1-4-3.5l8-8a2.5 2.5 0 0 1 3.5 4l-7.5 7.5Z"/><circle cx="6" cy="6" r="2"/></svg></span> Hockey Format: Fantastic 5</div>
           <ul class="rule-list">
             <li><div class="rule-content"><span class="rule-label">Team Size</span><span class="rule-text">Infield players: 4, Goalkeeper: 1, Reserve: 1.</span></div></li>
             <li><div class="rule-content"><span class="rule-label">Match Length</span><span class="rule-text">Two halves of 5 minutes each, with a 1-minute interval in between.</span></div></li>
@@ -1125,7 +1125,7 @@
     <div class="container">
       <div class="footer-inner">
         <div>
-          <div class="footer-logo">FNL<span>'25</span></div>
+          <div class="footer-logo">FNL<span>'26</span></div>
           <div class="footer-tagline">Hosted by HeronBridge College</div>
         </div>
 
@@ -1150,7 +1150,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>© 2025 Friday Night Lights — All rights reserved.</p>
+        <p>© 2026 Friday Night Lights — All rights reserved.</p>
         <div class="footer-sports">
           <span>Netball</span>
           <span>Hockey</span>
@@ -1176,13 +1176,29 @@
     document.querySelectorAll('.fade-up, .stagger').forEach(el => observer.observe(el));
 
     // Light/Dark mode toggle
-    const modeBtn = document.getElementById('mode-toggle');
-    modeBtn.onclick = function() {
-      document.body.classList.toggle('light-mode');
-      const isLight = document.body.classList.contains('light-mode');
-      modeBtn.innerHTML = isLight ? '<i data-lucide="sun"></i>' : '<i data-lucide="moon"></i>';
-      lucide.createIcons();
-    };
+    (function() {
+      const modeBtn = document.getElementById('mode-toggle');
+      const FNL_THEME_KEY = 'fnl_theme';
+
+      const applyTheme = () => {
+        if (localStorage.getItem(FNL_THEME_KEY) === 'light') {
+          document.body.classList.add('light-mode');
+          modeBtn.innerHTML = '<i data-lucide="sun"></i>';
+        } else {
+          document.body.classList.remove('light-mode');
+          modeBtn.innerHTML = '<i data-lucide="moon"></i>';
+        }
+        lucide.createIcons();
+      };
+
+      modeBtn.onclick = function() {
+        const isLight = document.body.classList.toggle('light-mode');
+        localStorage.setItem(FNL_THEME_KEY, isLight ? 'light' : 'dark');
+        applyTheme();
+      };
+
+      applyTheme(); // Apply theme on initial load
+    })();
 
     // Admin button opens admin.html in new tab
     document.getElementById('admin-btn').onclick = function() {
@@ -1226,13 +1242,22 @@
       const grid = document.querySelector('.fixture-cards-grid');
       if (!grid) return;
 
-      const storedFixtures = localStorage.getItem(FNL_FIXTURES_KEY);
       let fixtures = [];
+      const storedFixtures = localStorage.getItem(FNL_FIXTURES_KEY);
 
       if (storedFixtures) {
-        fixtures = JSON.parse(storedFixtures);
-      } else {
-        // Fallback to default fixtures if none in storage
+        try {
+          const parsed = JSON.parse(storedFixtures);
+          if (Array.isArray(parsed)) {
+            fixtures = parsed;
+          }
+        } catch (e) {
+          console.error("Could not parse fixtures from localStorage", e);
+        }
+      }
+
+      // If storage is empty or invalid, use fallback
+      if (fixtures.length === 0) {
         fixtures = [
           { sport: 'football', division: 'u19b', teamA: 'Northriding College', teamB: 'HeronBridge', date: '2026-06-05', time: '17:00', status: 'upcoming', type: 'Pool A', venue: 'Main Field' },
           { sport: 'football', division: 'u11b', teamA: 'HeronBridge Gold', teamB: 'Croyden House', date: '2026-06-05', time: '17:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 2' },
@@ -1242,7 +1267,6 @@
           { sport: 'hockey', division: 'u13b', teamA: 'HeronBridge College 1', teamB: 'Croyden House', date: '2026-06-05', time: '18:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 1' },
         ];
       }
-
       grid.innerHTML = ''; // Clear existing
       
       if (fixtures.length === 0) {
@@ -1283,6 +1307,23 @@
         grid.innerHTML += cardHTML;
       });
     }
+
+    // --- FIX FOR TAG ALIGNMENT ---
+    // This style block is added to apply the flex centering to the tags.
+    const style = document.createElement('style');
+    style.textContent = `
+      .fixture-card-meta {
+        align-items: center;
+      }
+      .fixture-status.upcoming, .fixture-type {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 4px;
+        padding-bottom: 4px;
+      }
+    `;
+    document.head.appendChild(style);
 
     // Initial render on page load
     renderPublicFixtures();

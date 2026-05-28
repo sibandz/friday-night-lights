@@ -319,13 +319,29 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   // Light/Dark mode toggle
-  const modeBtn = document.getElementById('mode-toggle');
-  modeBtn.onclick = function() {
-    document.body.classList.toggle('light-mode');
-    const isLight = document.body.classList.contains('light-mode');
-    modeBtn.innerHTML = isLight ? '<i data-lucide="sun"></i>' : '<i data-lucide="moon"></i>';
-    lucide.createIcons();
-  };
+  (function() {
+    const modeBtn = document.getElementById('mode-toggle');
+    const FNL_THEME_KEY = 'fnl_theme';
+
+    const applyTheme = () => {
+      if (localStorage.getItem(FNL_THEME_KEY) === 'light') {
+        document.body.classList.add('light-mode');
+        modeBtn.innerHTML = '<i data-lucide="sun"></i>';
+      } else {
+        document.body.classList.remove('light-mode');
+        modeBtn.innerHTML = '<i data-lucide="moon"></i>';
+      }
+      lucide.createIcons();
+    };
+
+    modeBtn.onclick = function() {
+      const isLight = document.body.classList.toggle('light-mode');
+      localStorage.setItem(FNL_THEME_KEY, isLight ? 'light' : 'dark');
+      applyTheme();
+    };
+
+    applyTheme(); // Apply theme on initial load
+  })();
 
   loginForm.onsubmit = function(e) {
     e.preventDefault();
@@ -341,6 +357,5 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   // Initial setup call
-  lucide.createIcons();
   initSetup();
 });
