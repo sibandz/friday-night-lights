@@ -1238,35 +1238,29 @@
 
     // --- DYNAMIC FIXTURE RENDERING ---
     function renderPublicFixtures() {
-      const FNL_FIXTURES_KEY = 'fnl_fixtures';
       const grid = document.querySelector('.fixture-cards-grid');
       if (!grid) return;
 
       let fixtures = [];
-      try {
-        const storedFixtures = localStorage.getItem(FNL_FIXTURES_KEY);
-        if (storedFixtures) {
-          const parsed = JSON.parse(storedFixtures);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            fixtures = parsed;
+
+      // Fetch data from the serverless function
+      fetch('/api/get-data')
+        .then(response => response.json())
+        .then(data => {
+          if (data && Array.isArray(data.fixtures) && data.fixtures.length > 0) {
+            fixtures = data.fixtures;
+          } else {
+            // Fallback to default fixtures if fetch fails or returns no data
+            fixtures = [
+              { sport: 'football', division: 'u19b', teamA: 'Northriding College', teamB: 'HeronBridge', date: '2026-06-05', time: '17:00', status: 'upcoming', type: 'Pool A', venue: 'Main Field' },
+              { sport: 'football', division: 'u11b', teamA: 'HeronBridge Gold', teamB: 'Croyden House', date: '2026-06-05', time: '17:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 2' },
+              { sport: 'netball', division: 'u19', teamA: 'Cooper College', teamB: 'Northriding College', date: '2026-06-05', time: '17:45', status: 'upcoming', type: 'Pool A', venue: 'Court 1' },
+              { sport: 'netball', division: 'u13', teamA: 'Croyden House', teamB: 'HeronBridge College 2', date: '2026-06-05', time: '18:00', status: 'upcoming', type: 'Pool C', venue: 'Court 3' },
+              { sport: 'hockey', division: 'u13g', teamA: 'HeronBridge College 2', teamB: 'Cooper College', date: '2026-06-05', time: '18:15', status: 'upcoming', type: 'Pool A', venue: 'Astro 1' },
+              { sport: 'hockey', division: 'u13b', teamA: 'HeronBridge College 1', teamB: 'Croyden House', date: '2026-06-05', time: '18:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 1' },
+            ];
           }
-        }
-      } catch (e) {
-        console.error("Could not access or parse fixtures from localStorage. Using default fixtures.", e);
-      }
-      
-      // If storage is empty or invalid, use fallback
-      if (fixtures.length === 0) {
-        fixtures = [
-          { sport: 'football', division: 'u19b', teamA: 'Northriding College', teamB: 'HeronBridge', date: '2026-06-05', time: '17:00', status: 'upcoming', type: 'Pool A', venue: 'Main Field' },
-          { sport: 'football', division: 'u11b', teamA: 'HeronBridge Gold', teamB: 'Croyden House', date: '2026-06-05', time: '17:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 2' },
-          { sport: 'netball', division: 'u19', teamA: 'Cooper College', teamB: 'Northriding College', date: '2026-06-05', time: '17:45', status: 'upcoming', type: 'Pool A', venue: 'Court 1' },
-          { sport: 'netball', division: 'u13', teamA: 'Croyden House', teamB: 'HeronBridge College 2', date: '2026-06-05', time: '18:00', status: 'upcoming', type: 'Pool C', venue: 'Court 3' },
-          { sport: 'hockey', division: 'u13g', teamA: 'HeronBridge College 2', teamB: 'Cooper College', date: '2026-06-05', time: '18:15', status: 'upcoming', type: 'Pool A', venue: 'Astro 1' },
-          { sport: 'hockey', division: 'u13b', teamA: 'HeronBridge College 1', teamB: 'Croyden House', date: '2026-06-05', time: '18:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 1' },
-        ];
-      }
-      grid.innerHTML = ''; // Clear existing
+          grid.innerHTML = ''; // Clear existing
       
       if (fixtures.length === 0) {
         grid.innerHTML = '<p style="color: var(--muted); grid-column: 1 / -1; text-align: center;">No fixtures have been scheduled yet. Please check back later.</p>';
@@ -1305,6 +1299,11 @@
         `;
         grid.innerHTML += cardHTML;
       });
+        })
+        .catch(error => {
+          console.error("Failed to render fixtures:", error);
+          grid.innerHTML = '<p style="color: #ff4757; grid-column: 1 / -1; text-align: center;">Could not load schedule. Please try refreshing the page.</p>';
+        });
     }
 
     // --- FIX FOR TAG ALIGNMENT ---
@@ -1327,12 +1326,6 @@
     // Initial render on page load
     renderPublicFixtures();
 
-    // Listen for changes from other tabs (the admin panel)
-    window.addEventListener('storage', function(e) {
-      if (e.key === 'fnl_fixtures') {
-        renderPublicFixtures();
-      }
-    });
   </script>
 
 </body>

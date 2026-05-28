@@ -11,10 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const PASSWORD = 'FNLHBC26';
 
-  // --- DATA MANAGEMENT KEYS ---
-  const FNL_TEAMS_KEY = 'fnl_teams';
-  const FNL_FIXTURES_KEY = 'fnl_fixtures';
-
   // Map of all available sports and divisions
   const sportDivisions = {
     football: [
@@ -211,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
   window.deleteFixture = function(idx) {
     if (confirm('Delete this fixture?')) {
       fixtures.splice(idx, 1);
-      saveData();
+      saveData(); // This is now async
       renderFixtures();
     }
   };
@@ -234,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.style.display = 'none';
   };
 
-  modalForm.onsubmit = function(e) {
+  modalForm.onsubmit = async function(e) {
     e.preventDefault();
     const newFixture = {
       sport: document.getElementById('modal-sport').value,
@@ -258,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       fixtures[editingIndex] = newFixture;
     }
-    saveData();
+    await saveData();
     renderFixtures();
     closeModal();
   };
@@ -305,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
   window.deleteTeam = function(id) {
     if(confirm("Are you sure you want to remove this team?")) {
       teams = teams.filter(t => t.id !== id);
-      saveData();
+      saveData(); // This is now async
       renderTeams();
     }
   };
@@ -316,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sport = document.getElementById('team-sport').value;
     const division = document.getElementById('team-division').value;
     teams.push({ id: Date.now(), name, sport, division });
-    saveData();
+    saveData(); // This is now async
     document.getElementById('team-name').value = '';
     renderTeams();
   };
@@ -359,13 +355,14 @@ document.addEventListener('DOMContentLoaded', function() {
     applyTheme(); // Apply theme on initial load
   })();
 
-  loginForm.onsubmit = function(e) {
+  loginForm.onsubmit = async function(e) {
     e.preventDefault();
     const pass = document.getElementById('admin-password').value;
     if (pass === PASSWORD) {
       document.getElementById('admin-login').style.display = 'none';
       document.getElementById('admin-tabs').style.display = 'flex';
       document.getElementById('fixture-editor').style.display = 'block';
+      await loadData();
       renderFixtures();
     } else {
       alert('Incorrect password');
