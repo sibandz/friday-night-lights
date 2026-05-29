@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  async function saveData() {
+  async function saveData() { // Returns true on success, false on failure
     try {
       const response = await fetch('/api/save-data', {
         method: 'POST',
@@ -121,9 +121,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         throw new Error(errorMessage);
       }
+      return true;
     } catch (e) {
       console.error("Failed to save data to server", e);
       alert(`Error: Could not save data. ${e.message}. Your changes have NOT been saved.`);
+      return false;
     }
   }
 
@@ -222,9 +224,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   window.deleteFixture = async function(idx) {
     if (confirm('Delete this fixture?')) {
-      fixtures.splice(idx, 1);
-      await saveData();
-      renderFixtures();
+      const originalFixtures = [...fixtures];
+      fixtures.splice(idx, 1); // Temporarily update for the save call
+
+      if (await saveData()) {
+        renderFixtures(); // On success, re-render the UI
+      } else {
+        fixtures = originalFixtures; // On failure, revert the change
+      }
     }
   };
 
@@ -246,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.style.display = 'none';
   };
 
-  modalForm.onsubmit = async function(e) {
+  modalForm.onsubmit = async function(e) { // Refactored for pessimistic UI update
     e.preventDefault();
     const newFixture = {
       sport: document.getElementById('modal-sport').value,
@@ -265,14 +272,23 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
+    const originalFixtures = [...fixtures];
+    let updatedFixtures;
+
     if (editingIndex === -1) {
-      fixtures.push(newFixture);
+      updatedFixtures = [...fixtures, newFixture];
     } else {
-      fixtures[editingIndex] = newFixture;
+      updatedFixtures = [...fixtures];
+      updatedFixtures[editingIndex] = newFixture;
     }
-    await saveData();
-    renderFixtures();
-    closeModal();
+
+    fixtures = updatedFixtures; // Temporarily update global state for saveData
+    if (await saveData()) {
+      renderFixtures();
+      closeModal();
+    } else {
+      fixtures = originalFixtures; // Revert on failure
+    }
   };
 
   /* ── TEAMS MANAGEMENT ───────────────────────────────────── */
@@ -316,21 +332,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
   window.deleteTeam = async function(id) {
     if(confirm("Are you sure you want to remove this team?")) {
-      teams = teams.filter(t => t.id !== id);
-      await saveData();
-      renderTeams();
+      const originalTeams = [...teams];
+      teams = teams.filter(t => t.id !== id); // Temporarily update for save
+
+      if (await saveData()) {
+        renderTeams(); // On success, re-render
+      } else {
+        teams = originalTeams; // On failure, revert
+      }
     }
   };
 
   document.getElementById('add-team-form').onsubmit = async function(e) {
     e.preventDefault();
-    const name = document.getElementById('team-name').value;
-    const sport = document.getElementById('team-sport').value;
-    const division = document.getElementById('team-division').value;
-    teams.push({ id: Date.now(), name, sport, division });
-    await saveData();
-    document.getElementById('team-name').value = '';
-    renderTeams();
+    const newTeam = {
+      id: Date.now(),
+      name: document.getElementById('team-name').value,
+      sport: document.getElementById('team-sport').value,
+      division: document.getElementById('team-division').value,
+    };
+    const originalTeams = [...teams];
+    teams.push(newTeam); // Temporarily update for save
+
+    if (await saveData()) {
+      document.getElementById('team-name').value = '';
+      renderTeams();
+    } else {
+      teams = originalTeams; // On failure, revert
+    }
   };
 
   /* ── NAVIGATION / AUTH ──────────────────────────────────── */
