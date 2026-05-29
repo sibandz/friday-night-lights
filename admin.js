@@ -111,13 +111,23 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       if (!response.ok) {
-        let errorMessage = `Server responded with status: ${response.status}`;
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.details || errorData.error || errorMessage;
-        } catch (jsonError) {
-          // The response was not JSON. It might be an HTML error page.
-          console.error("Could not parse error response as JSON.", jsonError);
+        let errorMessage = `Server responded with status: ${response.status}.`;
+        const contentType = response.headers.get('content-type');
+
+        if (contentType && contentType.includes('application/json')) {
+          try {
+            const errorData = await response.json();
+            // Prefer the more detailed message if available
+            errorMessage = errorData.details || errorData.error || errorMessage;
+          } catch (jsonError) {
+            console.error("Could not parse JSON error response.", jsonError);
+            errorMessage += ' The server sent an invalid JSON error response.';
+          }
+        } else {
+          // Handle HTML or text error pages from the server/proxy
+          const textError = await response.text();
+          console.error("Server returned a non-JSON error response:", textError);
+          errorMessage += ' This can happen if the server crashes. Check the browser console and Vercel logs for more details.';
         }
         throw new Error(errorMessage);
       }

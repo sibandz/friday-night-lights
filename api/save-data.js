@@ -40,11 +40,22 @@ export default async function handler(request, response) {
 
     return response.status(200).json({ message: 'Data saved successfully' });
   } catch (error) {
-    console.error('Error in /api/save-data:', error);
-    // Check for a common error: table not found
+    // Log the full error for server-side debugging.
+    // Be cautious logging the request body in production if it contains sensitive data.
+    console.error('Error in /api/save-data:', {
+      message: error.message,
+      stack: error.stack,
+    });
+
+    // Provide a more specific error message to the client.
     if (error.message.includes('relation "fnl_data" does not exist')) {
-        return response.status(500).json({ error: 'Database table not found. Please set up the database table.' });
+      return response.status(500).json({
+        error: 'Database table not found.',
+        details: 'The "fnl_data" table does not exist. Please run the setup SQL command in your Vercel Postgres dashboard.',
+      });
     }
-    return response.status(500).json({ error: 'Internal Server Error: ' + error.message });
+
+    // Generic error for other cases.
+    return response.status(500).json({ error: 'An unexpected server error occurred.', details: error.message });
   }
 }

@@ -1,7 +1,8 @@
 {
+  "name": "friday-night-lights",
+  "version": "1.0.0",
+  "private": true,
   "dependencies": {
-    "@neondatabase/serverless": "^1.1.0",
-    "@vercel/kv": "^3.0.0",
     "@vercel/postgres": "^0.10.0"
   }
 }
