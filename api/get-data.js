@@ -1,4 +1,4 @@
-import { kv } from '@vercel/kv';
+import { sql } from '@vercel/postgres';
 
 export default async function handler(request, response) {
   if (request.method !== 'GET') {
@@ -7,12 +7,11 @@ export default async function handler(request, response) {
   }
 
   try {
-    // Fetch the data from Vercel KV.
-    const data = await kv.get('fnl-data');
+    // Fetch the data from Vercel Postgres.
+    const { rows } = await sql`SELECT data FROM fnl_data WHERE id = 'schedule';`;
 
     // If no data is found (e.g., first time running), return empty arrays.
-    // This ensures the frontend doesn't break and correctly shows the "No fixtures" message.
-    const responseData = data || { teams: [], fixtures: [] };
+    const responseData = rows[0]?.data || { teams: [], fixtures: [] };
 
     // Add caching headers for performance.
     response.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
@@ -20,6 +19,10 @@ export default async function handler(request, response) {
     return response.status(200).json(responseData);
   } catch (error) {
     console.error('Error in /api/get-data:', error);
+    // Check for a common error: table not found
+    if (error.message.includes('relation "fnl_data" does not exist')) {
+        return response.status(500).json({ error: 'Database table not found. Please set up the database table.' });
+    }
     return response.status(500).json({ error: 'Internal Server Error' });
   }
 }
