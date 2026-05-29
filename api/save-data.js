@@ -11,29 +11,32 @@ export default async function handler(request, response) {
   }
 
   try {
-    // Parse body if not already parsed (Vercel/Node.js plain handler)
+    // Parse body - handle different formats
     let body = request.body;
-    if (!body || typeof body !== 'object') {
-      try {
-        body = JSON.parse(request.body);
-      } catch (e) {
-        // If request.body is a stream (as in Node.js), collect and parse it
-        body = await new Promise((resolve, reject) => {
-          let data = '';
-          request.on('data', chunk => { data += chunk; });
-          request.on('end', () => {
-            try {
-              resolve(JSON.parse(data));
-            } catch (err) {
-              reject(err);
-            }
-          });
-          request.on('error', reject);
+    
+    if (typeof body === 'string') {
+      body = JSON.parse(body);
+    } else if (!body || typeof body !== 'object') {
+      // If body is not set, try to read from stream
+      body = await new Promise((resolve, reject) => {
+        let data = '';
+        request.on('data', chunk => { data += chunk; });
+        request.on('end', () => {
+          try {
+            resolve(data ? JSON.parse(data) : {});
+          } catch (err) {
+            reject(new Error(`Failed to parse JSON body: ${err.message}`));
+          }
         });
-      }
+        request.on('error', reject);
+      });
     }
 
     const { teams, fixtures, password } = body;
+
+    if (!password) {
+      return response.status(400).json({ error: 'Missing password' });
+    }
 
     if (password !== ADMIN_PASSWORD) {
       return response.status(401).json({ error: 'Unauthorized: Incorrect password' });
@@ -44,11 +47,26 @@ export default async function handler(request, response) {
     }
 
     // Store the data in Vercel KV using a single key.
-    await kv.set('fnl-data', { teams, fixtures });
+    try {
+      await kv.set('fnl-data', { teams, fixtures });
+    } catch (kvError) {
+      console.error('KV Database Error:', kvError);
+      console.error('KV Error Details:', {
+        message: kvError.message,
+        code: kvError.code,
+        stack: kvError.stack
+      });
+      return response.status(500).json({ error: 'KV Database Error: ' + kvError.message });
+    }
 
     return response.status(200).json({ message: 'Data saved successfully' });
   } catch (error) {
     console.error('Error in /api/save-data:', error);
-    return response.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error Details:', {
+      message: error.message,
+      stack: error.stack,
+      body: JSON.stringify(body)
+    });
+    return response.status(500).json({ error: 'Internal Server Error: ' + error.message });
   }
 }
