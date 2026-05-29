@@ -1304,7 +1304,11 @@
           return response.json();
         })
         .then(data => {
-          if (data && Array.isArray(data.fixtures) && data.fixtures.length > 0) {
+          // The original check would show default fixtures if the saved list was empty.
+          // This new logic correctly handles an empty schedule by checking if `data.fixtures`
+          // is an array, allowing the `render` function to display the "No fixtures" message
+          // if the array is empty.
+          if (data && Array.isArray(data.fixtures)) {
             render(data.fixtures);
           } else {
             render(defaultFixtures);

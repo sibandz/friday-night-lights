@@ -90,8 +90,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const response = await fetch('/api/get-data');
       if (!response.ok) throw new Error('Failed to fetch data from server');
       const data = await response.json();
-      teams = Array.isArray(data.teams) && data.teams.length > 0 ? data.teams : defaultTeams;
-      fixtures = Array.isArray(data.fixtures) && data.fixtures.length > 0 ? data.fixtures : defaultFixtures;
+      // The original check was problematic: it would revert to default data
+      // if the user saved an empty list of teams or fixtures.
+      // This new check correctly handles empty arrays from the server.
+      teams = data && Array.isArray(data.teams) ? data.teams : defaultTeams;
+      fixtures = data && Array.isArray(data.fixtures) ? data.fixtures : defaultFixtures;
     } catch (e) {
       console.error("Could not load server data, using defaults.", e);
       teams = defaultTeams;
