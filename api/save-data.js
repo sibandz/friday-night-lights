@@ -11,7 +11,29 @@ export default async function handler(request, response) {
   }
 
   try {
-    const { teams, fixtures, password } = request.body;
+    // Parse body if not already parsed (Vercel/Node.js plain handler)
+    let body = request.body;
+    if (!body || typeof body !== 'object') {
+      try {
+        body = JSON.parse(request.body);
+      } catch (e) {
+        // If request.body is a stream (as in Node.js), collect and parse it
+        body = await new Promise((resolve, reject) => {
+          let data = '';
+          request.on('data', chunk => { data += chunk; });
+          request.on('end', () => {
+            try {
+              resolve(JSON.parse(data));
+            } catch (err) {
+              reject(err);
+            }
+          });
+          request.on('error', reject);
+        });
+      }
+    }
+
+    const { teams, fixtures, password } = body;
 
     if (password !== ADMIN_PASSWORD) {
       return response.status(401).json({ error: 'Unauthorized: Incorrect password' });
