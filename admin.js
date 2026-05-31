@@ -205,6 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
       fixtureList.appendChild(card);
     });
     lucide.createIcons();
+    if (window.lucide) lucide.createIcons();
   }
 
   function renderTeams() {
@@ -242,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
       teamsListContainer.appendChild(groupDiv);
     });
     lucide.createIcons();
+    if (window.lucide) lucide.createIcons();
   }
 
   function formatDate(dateStr) {
@@ -404,12 +406,34 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('tab-teams').classList.remove('active');
     document.getElementById('fixture-editor').style.display = 'none';
     document.getElementById('teams-editor').style.display = 'none';
+    // Deactivate all tab buttons if they exist
+    const tabFixturesBtn = document.getElementById('tab-fixtures');
+    if (tabFixturesBtn) tabFixturesBtn.classList.remove('active');
+    const tabTeamsBtn = document.getElementById('tab-teams');
+    if (tabTeamsBtn) tabTeamsBtn.classList.remove('active');
 
     document.getElementById(`tab-${tab}`).classList.add('active');
     document.getElementById(`${tab}-editor`).style.display = 'block';
+    // Hide all editor panels
+    const fixtureEditor = document.getElementById('fixture-editor');
+    if (fixtureEditor) fixtureEditor.style.display = 'none';
+    const teamsEditor = document.getElementById('teams-editor');
+    if (teamsEditor) teamsEditor.style.display = 'none';
 
     if (tab === 'teams') renderTeams();
     else if (tab === 'fixtures') renderFixtures();
+    // Activate the selected tab button if it exists
+    const activeTabBtn = document.getElementById(`tab-${tab}`);
+    if (activeTabBtn) activeTabBtn.classList.add('active');
+
+    // Show the selected editor panel and render its content
+    if (tab === 'teams' && teamsEditor) {
+      teamsEditor.style.display = 'block';
+      renderTeams();
+    } else if (tab === 'fixtures' && fixtureEditor) {
+      fixtureEditor.style.display = 'block';
+      renderFixtures();
+    }
   };
 
   loginForm.onsubmit = async function(e) {
@@ -447,6 +471,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.body.classList.toggle('light-mode', isLight);
       modeBtn.innerHTML = isLight ? '<i data-lucide="sun"></i>' : '<i data-lucide="moon"></i>';
       lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     };
     modeBtn.onclick = () => {
       const isLight = document.body.classList.toggle('light-mode');
