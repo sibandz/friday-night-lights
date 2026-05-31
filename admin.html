@@ -615,36 +615,38 @@
       </form>
     </div>
 
-    <div class="admin-tabs" id="admin-tabs" style="display:none;">
-      <button class="tab-btn active" id="tab-fixtures" onclick="switchTab('fixtures')">Fixtures</button>
-      <button class="tab-btn" id="tab-teams" onclick="switchTab('teams')">Teams</button>
-    </div>
-
-    <div class="fixture-editor" id="fixture-editor">
-      <button class="add-fixture-btn" id="add-fixture-btn">Add Fixture</button>
-      <div class="fixture-list" id="fixture-list"></div>
-    </div>
-
-    <div class="teams-editor" id="teams-editor">
-      <div class="add-team-panel">
-        <h3>Add New Team</h3>
-        <form class="add-team-row" id="add-team-form">
-          <div class="form-group">
-            <label>Sport</label>
-            <select id="team-sport" onchange="updateDivisions('team-sport', 'team-division')" required></select>
-          </div>
-          <div class="form-group">
-            <label>Division</label>
-            <select id="team-division" required></select>
-          </div>
-          <div class="form-group">
-            <label>Team Name</label>
-            <input type="text" id="team-name" placeholder="Enter team name" required autocomplete="off" />
-          </div>
-          <button type="submit">Add Team</button>
-        </form>
+    <div id="admin-content" style="display: none;">
+      <div class="admin-tabs" id="admin-tabs">
+        <button class="tab-btn active" id="tab-fixtures" onclick="switchTab('fixtures')">Fixtures</button>
+        <button class="tab-btn" id="tab-teams" onclick="switchTab('teams')">Teams</button>
       </div>
-      <div id="teams-list-container"></div>
+
+      <div class="fixture-editor" id="fixture-editor">
+        <button class="add-fixture-btn" id="add-fixture-btn">Add Fixture</button>
+        <div class="fixture-list" id="fixture-list"></div>
+      </div>
+
+      <div class="teams-editor" id="teams-editor">
+        <div class="add-team-panel">
+          <h3>Add New Team</h3>
+          <form class="add-team-row" id="add-team-form">
+            <div class="form-group">
+              <label>Sport</label>
+              <select id="team-sport" onchange="updateDivisions('team-sport', 'team-division')" required></select>
+            </div>
+            <div class="form-group">
+              <label>Division</label>
+              <select id="team-division" required></select>
+            </div>
+            <div class="form-group">
+              <label>Team Name</label>
+              <input type="text" id="team-name" placeholder="Enter team name" required autocomplete="off" />
+            </div>
+            <button type="submit">Add Team</button>
+          </form>
+        </div>
+        <div id="teams-list-container"></div>
+      </div>
     </div>
   </div>
 
