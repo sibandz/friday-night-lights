@@ -1296,7 +1296,7 @@
       };
 
       // Fetch data from the serverless function
-      fetch('/api/get-data')
+      fetch('/api/get-data', { cache: 'no-store' })
         .then(response => {
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
