@@ -1071,7 +1071,6 @@
         </div>
 
         <div class="hero-date-card">
-          <!-- ✏️ EDIT: Change date/time/venue here -->
           <div class="date-day">05</div>
           <div class="date-month">JUNE 2026</div>
           <div class="date-time">
@@ -1400,6 +1399,34 @@
       // Show a loading state
       grid.innerHTML = '<p style="color: var(--muted); grid-column: 1 / -1; text-align: center;">Loading Schedule...</p>';
 
+      const updateHeroInfo = (firstFixture) => {
+        const dateDayEl = document.querySelector('.date-day');
+        const dateMonthEl = document.querySelector('.date-month');
+        const dateTimeEl = document.querySelector('.date-time strong');
+        const dateVenueEl = document.querySelector('.date-venue strong');
+
+        if (!dateDayEl || !dateMonthEl || !dateTimeEl || !dateVenueEl) {
+          return; // Silently fail if elements are not on the page
+        }
+
+        if (firstFixture && firstFixture.date) {
+          try {
+            // The date string is 'YYYY-MM-DD'. We need to parse it as UTC to avoid timezone issues.
+            const date = new Date(firstFixture.date + 'T00:00:00Z');
+            const day = date.getUTCDate().toString().padStart(2, '0');
+            const month = date.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' }).toUpperCase();
+            const year = date.getUTCFullYear();
+
+            dateDayEl.textContent = day;
+            dateMonthEl.textContent = `${month} ${year}`;
+            dateTimeEl.textContent = firstFixture.time || 'TBD';
+            dateVenueEl.textContent = firstFixture.venue || 'TBC';
+          } catch (e) {
+            console.error("Error parsing fixture date for hero card:", e);
+          }
+        }
+      };
+
       const defaultFixtures = [
         { sport: 'football', division: 'u19b', teamA: 'Northriding College', teamB: 'HeronBridge', date: '2026-06-05', time: '17:00', status: 'upcoming', type: 'Pool A', venue: 'Main Field' },
         { sport: 'football', division: 'u11b', teamA: 'HeronBridge Gold', teamB: 'Croyden House', date: '2026-06-05', time: '17:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 2' },
@@ -1414,6 +1441,7 @@
         
         if (!fixtures || fixtures.length === 0) {
           grid.innerHTML = '<p style="color: var(--muted); grid-column: 1 / -1; text-align: center;">No fixtures have been scheduled yet. Please check back later.</p>';
+          updateHeroInfo(defaultFixtures[0]); // Fallback to default hero info
           return;
         }
 
@@ -1423,7 +1451,15 @@
           hockey: [ {v: 'u13g', t: 'Girls U13'}, {v: 'u13b', t: 'Boys U13'} ]
         };
 
-        fixtures.sort((a, b) => (a.time || '99:99').localeCompare(b.time || '99:99'));
+        // Sort by date then time to find the earliest fixture
+        fixtures.sort((a, b) => {
+          const aValue = (a.date || '9999-12-31') + (a.time || '99:99');
+          const bValue = (b.date || '9999-12-31') + (b.time || '99:99');
+          return aValue.localeCompare(bValue);
+        });
+
+        // Update hero card with the first upcoming fixture
+        updateHeroInfo(fixtures[0]);
 
         fixtures.forEach(fx => {
           const safeSport = fx.sport || 'football';
