@@ -11,12 +11,19 @@ export default async function handler(request, response) {
   }
 
   try {
-    // Vercel's environment automatically parses JSON request bodies.
-    // This check ensures the body is a valid object.
-    const body = request.body;
-    if (typeof body !== 'object' || body === null) {
-      return response.status(400).json({ error: 'Bad Request: Invalid or missing JSON body.' });
+    // Manually parse the request body. Vercel Serverless Functions (non-Next.js)
+    // do not automatically parse the body. The request object is a stream.
+    const chunks = [];
+    for await (const chunk of request) {
+      chunks.push(chunk);
     }
+    const bodyString = Buffer.concat(chunks).toString();
+
+    if (!bodyString) {
+      return response.status(400).json({ error: 'Bad Request: Empty request body' });
+    }
+
+    const body = JSON.parse(bodyString);
     const { teams, fixtures, password } = body;
 
     if (!password) {
