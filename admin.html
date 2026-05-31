@@ -36,98 +36,160 @@
       background-size: 40px 40px;
       pointer-events: none;
     }
+    /* ── SIDEBAR NAVIGATION ─────────────────────────────── */
+    nav {
+      position: fixed; left: 0; top: 0; bottom: 0; z-index: 100;
+      width: 90px;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: flex-start;
+      background: linear-gradient(180deg, rgba(8,8,8,0.98), rgba(15,15,15,0.95));
+      backdrop-filter: blur(4px);
+      border-right: 1px solid var(--border, #222);
+      padding: 24px 0;
+      gap: 40px;
+    }
+    .nav-logo {
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 1.2rem;
+      letter-spacing: 0.06em;
+      color: var(--gold, #f5c518);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      margin-top: 8px;
+      font-weight: 900;
+    }
+    .nav-logo span { color: var(--white, #f0ede6); }
+    .nav-actions { 
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+      margin-top: auto; margin-bottom: 24px;
+    }
+    .btn-icon {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border, #222); 
+      color: var(--gold, #f5c518); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      padding: 12px; border-radius: 12px; transition: all 0.2s;
+      width: 48px; height: 48px;
+    }
+    .btn-icon:hover { 
+      background: rgba(245, 197, 24, 0.15);
+      border-color: var(--gold, #f5c518);
+    }
+    body.light-mode .btn-icon:hover { background: rgba(245, 197, 24, 0.15); }
+
     .admin-container {
-      max-width: 900px;
-      margin: 48px auto;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 24px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.25);
-      padding: 40px 32px;
+      margin-left: 90px;
+      max-width: 1200px;
+      margin-right: auto;
+      margin-top: 0;
+      margin-bottom: 0;
+      background: transparent;
+      border: none;
+      backdrop-filter: none;
+      box-shadow: none;
+      padding: 60px 48px;
       position: relative;
       z-index: 1;
+      min-height: 100vh;
     }
     .admin-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 48px;
     }
-    .btn-icon {
-      background: transparent; border: none; color: inherit; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      padding: 8px; border-radius: 6px; transition: background 0.2s;
-      flex-shrink: 0;
-    }
-    .btn-icon:hover { background: rgba(255,255,255,0.05); }
-    body.light-mode .btn-icon:hover { background: rgba(0,0,0,0.05); }
     .admin-header h1 {
       margin-bottom: 0;
     }
     h1 {
       font-family: var(--font-display, 'Bebas Neue', sans-serif);
-      font-size: 2.5rem;
+      font-size: 3.2rem;
       color: var(--gold, #f5c518);
       margin-bottom: 24px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
     }
     .admin-login {
       max-width: 320px;
-      margin: 0 auto 32px;
-      background: var(--inner-card-bg);
-      padding: 24px;
-      border-radius: 16px;
+      margin: 0 0 48px 0;
+      background: var(--glass-bg);
       border: 1px solid var(--glass-border);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 32px 28px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
     }
     .admin-login input {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 14px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
       border: 1px solid var(--border, #222);
-      border-radius: 6px;
-      font-size: 1rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
       font-family: var(--font-sfpro);
       background: var(--card, #141414);
       color: var(--white, #f0ede6);
+      transition: all 0.2s;
+    }
+    .admin-login input:focus {
+      border-color: var(--gold, #f5c518);
+      background: rgba(245, 197, 24, 0.05);
+      outline: none;
     }
     .admin-login button {
       width: 100%;
-      padding: 12px;
+      padding: 14px 16px;
       background: var(--gold, #f5c518);
       color: var(--black, #080808);
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-family: var(--font-head, 'Barlow Condensed', sans-serif);
-      font-weight: 700;
-      font-size: 1rem;
+      font-weight: 800;
+      font-size: 0.9rem;
       cursor: pointer;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 24px rgba(245, 197, 24, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .admin-login button::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
     }
     .admin-login button:hover {
       background: #ffd740;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(245, 197, 24, 0.3);
     }
+    .admin-login button:hover::before { left: 100%; }
     .fixture-editor {
       display: none;
     }
     .fixture-list {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-top: 32px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      margin-top: 40px;
     }
     .fixture-card {
-      background: var(--inner-card-bg);
+      background: var(--glass-bg);
       border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 24px 20px 18px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border-radius: 18px;
+      padding: 28px 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       position: relative;
+      transition: all 0.3s;
+    }
+    .fixture-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(245, 197, 24, 0.15);
     }
     .fixture-header {
       display: flex;
@@ -135,28 +197,30 @@
       justify-content: space-between;
       font-family: var(--font-head, 'Barlow Condensed', sans-serif);
       font-size: 1.1rem;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--white, #f0ede6);
     }
     .fixture-vs {
-      font-weight: 700;
+      font-weight: 900;
       color: var(--gold, #f5c518);
-      margin: 0 8px;
+      margin: 0 12px;
+      font-size: 1.1rem;
     }
     .fixture-meta {
       display: flex;
       gap: 12px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--muted, #888);
       margin-bottom: 4px;
+      flex-wrap: wrap;
     }
     .fixture-date {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: var(--muted, #888);
     }
     .fixture-actions {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       margin-top: auto;
       padding-top: 16px;
       border-top: 1px solid rgba(255,255,255,0.05);
@@ -166,110 +230,338 @@
       background: transparent;
       border: 1px solid var(--border, #222);
       color: var(--white, #f0ede6);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-family: var(--font-head, 'Barlow Condensed', sans-serif);
-      font-weight: 600;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       cursor: pointer;
-      padding: 6px 12px;
-      border-radius: 4px;
+      padding: 8px 14px;
+      border-radius: 6px;
       transition: all 0.2s;
     }
     .fixture-actions button:hover {
       border-color: var(--gold, #f5c518);
       color: var(--gold, #f5c518);
+      background: rgba(245, 197, 24, 0.05);
     }
     .add-fixture-btn {
-      margin-top: 24px;
+      margin-top: 0;
+      margin-bottom: 32px;
       background: var(--gold, #f5c518);
       color: var(--black, #080808);
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-family: var(--font-head, 'Barlow Condensed', sans-serif);
-      font-weight: 700;
-      font-size: 1rem;
+      font-weight: 800;
+      font-size: 0.9rem;
       cursor: pointer;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 12px 24px;
+      padding: 14px 28px;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 24px rgba(245, 197, 24, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .add-fixture-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
     }
     .add-fixture-btn:hover {
       background: #ffd740;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(245, 197, 24, 0.3);
     }
+    .add-fixture-btn:hover::before { left: 100%; }
     
     /* ── TABS ────────────────────────────────────────────── */
     .admin-tabs {
-      display: flex; gap: 16px; margin-bottom: 32px;
-      border-bottom: 1px solid var(--glass-border); padding-bottom: 16px;
+      display: flex; gap: 24px; margin-bottom: 48px;
+      border-bottom: 1px solid var(--glass-border); 
+      padding-bottom: 20px;
     }
     .tab-btn {
-      background: transparent; color: var(--muted, #888); border: none; font-family: var(--font-head);
-      font-size: 1.1rem; font-weight: 700; text-transform: uppercase; cursor: pointer; padding: 8px 16px; transition: all 0.2s;
+      background: transparent; color: var(--muted, #888); border: none; 
+      font-family: var(--font-head);
+      font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em;
+      cursor: pointer; padding: 12px 20px; transition: all 0.2s;
+      position: relative;
     }
-    .tab-btn.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
+    .tab-btn.active { 
+      color: var(--gold, #f5c518);
+    }
+    .tab-btn.active::after {
+      content: '';
+      position: absolute; bottom: -20px; left: 0; right: 0;
+      height: 3px;
+      background: var(--gold, #f5c518);
+    }
     .tab-btn:hover:not(.active) { color: var(--white); }
 
     /* ── TEAMS UI ────────────────────────────────────────── */
     .teams-editor { display: none; }
-    .add-team-panel { background: var(--inner-card-bg); border: 1px solid var(--glass-border); padding: 24px; border-radius: 16px; margin-bottom: 32px; }
-    .add-team-panel h3 { margin-top: 0; color: var(--gold); font-family: var(--font-head); font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
-    .add-team-row { display: grid; grid-template-columns: 1fr 1fr 2fr auto; gap: 12px; align-items: end; }
-    .add-team-row input, .add-team-row select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--white); font-family: var(--font-sfpro); font-size: 0.95rem; }
-    .add-team-row button { padding: 12px 24px; background: var(--gold); color: var(--black); border: none; border-radius: 6px; font-family: var(--font-head); font-weight: 700; font-size: 1rem; text-transform: uppercase; cursor: pointer; height: 44px; }
-    .add-team-row button:hover { background: #ffd740; }
-    @media (max-width: 768px) { .add-team-row { grid-template-columns: 1fr; } .add-team-row button { height: auto; } }
+    .add-team-panel { 
+      background: var(--glass-bg); 
+      border: 1px solid var(--glass-border); 
+      padding: 32px; 
+      border-radius: 16px; 
+      margin-bottom: 40px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .add-team-panel h3 { 
+      margin-top: 0; 
+      color: var(--gold); 
+      font-family: var(--font-head); 
+      font-size: 1.2rem; 
+      text-transform: uppercase; 
+      letter-spacing: 0.12em; 
+      margin-bottom: 20px;
+      font-weight: 800;
+    }
+    .add-team-row { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr 2fr auto; 
+      gap: 14px; 
+      align-items: end;
+    }
+    .add-team-row input, .add-team-row select { 
+      width: 100%; 
+      padding: 12px 16px; 
+      border: 1px solid var(--border); 
+      border-radius: 8px; 
+      background: var(--card); 
+      color: var(--white); 
+      font-family: var(--font-sfpro); 
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .add-team-row input:focus, .add-team-row select:focus {
+      border-color: var(--gold);
+      background: rgba(245, 197, 24, 0.05);
+      outline: none;
+    }
+    .add-team-row button { 
+      padding: 12px 28px; 
+      background: var(--gold); 
+      color: var(--black); 
+      border: none; 
+      border-radius: 8px; 
+      font-family: var(--font-head); 
+      font-weight: 800; 
+      font-size: 0.9rem; 
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      cursor: pointer; 
+      height: auto;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 24px rgba(245, 197, 24, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .add-team-row button::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+    .add-team-row button:hover { 
+      background: #ffd740;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(245, 197, 24, 0.3);
+    }
+    .add-team-row button:hover::before { left: 100%; }
+    @media (max-width: 768px) { 
+      .add-team-row { grid-template-columns: 1fr; } 
+      .add-team-row button { height: auto; } 
+    }
 
-    .team-badge { display: flex; align-items: center; justify-content: space-between; background: var(--inner-badge-bg); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px 16px; font-size: 0.95rem; transition: background 0.2s; }
-    .team-badge:hover { background: var(--inner-badge-hover-bg); }
-    .team-badge-meta { font-size: 0.75rem; color: var(--muted); margin-left: 12px; font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.05em; background: var(--inner-meta-bg); padding: 4px 8px; border-radius: 4px; }
-    .team-badge-actions button { background: transparent; border: none; color: #ff4757; cursor: pointer; font-size: 0.8rem; text-transform: uppercase; font-weight: bold; padding: 4px; }
+    .team-badge { 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      background: var(--glass-bg); 
+      border: 1px solid var(--glass-border); 
+      border-radius: 10px; 
+      padding: 14px 18px; 
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      transition: all 0.2s;
+    }
+    .team-badge:hover { 
+      background: rgba(255,255,255,0.08);
+      border-color: var(--gold);
+    }
+    .team-badge-meta { 
+      font-size: 0.75rem; 
+      color: var(--muted); 
+      margin-left: 14px; 
+      font-family: var(--font-head); 
+      text-transform: uppercase; 
+      letter-spacing: 0.08em;
+      background: rgba(255,255,255,0.04);
+      padding: 5px 10px; 
+      border-radius: 6px;
+    }
+    .team-badge-actions button { 
+      background: transparent; 
+      border: none; 
+      color: #ff6b7a; 
+      cursor: pointer; 
+      font-size: 0.75rem; 
+      text-transform: uppercase; 
+      font-weight: 800;
+      padding: 6px 8px;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .team-badge-actions button:hover { color: #ff8a99; }
 
     /* ── MODAL STYLES ────────────────────────────────────── */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.8); backdrop-filter: blur(12px);
       display: none; align-items: center; justify-content: center; z-index: 1000;
     }
     .modal-content {
-      background: var(--modal-bg); border: 1px solid var(--glass-border);
-      padding: 32px; border-radius: 16px; width: 90%; max-width: 600px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      background: var(--modal-bg); 
+      border: 1px solid var(--glass-border);
+      padding: 40px; 
+      border-radius: 18px; 
+      width: 90%; 
+      max-width: 700px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
       position: relative;
     }
     .modal-content h2 {
-      margin-top: 0; color: var(--gold); font-family: var(--font-head);
-      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px;
+      margin-top: 0; 
+      color: var(--gold); 
+      font-family: var(--font-head);
+      text-transform: uppercase; 
+      letter-spacing: 0.12em; 
+      margin-bottom: 28px;
+      font-size: 1.4rem;
+      font-weight: 800;
     }
     .modal-content input, .modal-content select {
-      width: 100%; padding: 12px; margin-bottom: 14px;
-      border: 1px solid var(--border, #222); border-radius: 6px;
-      font-size: 1rem; font-family: var(--font-sfpro);
-      background: var(--modal-input-bg); color: var(--white, #f0ede6);
+      width: 100%; 
+      padding: 14px 16px; 
+      margin-bottom: 16px;
+      border: 1px solid var(--border, #222); 
+      border-radius: 8px;
+      font-size: 0.95rem; 
+      font-family: var(--font-sfpro);
+      background: var(--modal-input-bg); 
+      color: var(--white, #f0ede6);
+      transition: all 0.2s;
     }
     .modal-content input:focus, .modal-content select:focus {
-      border-color: var(--gold, #f5c518); outline: none;
+      border-color: var(--gold, #f5c518); 
+      background: rgba(245, 197, 24, 0.08);
+      outline: none;
     }
-    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-    @media (max-width: 600px) { .modal-grid { grid-template-columns: 1fr; gap: 8px; } }
-    .form-group label { display: block; font-family: var(--font-head); font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
-    .modal-content input, .modal-content select { margin-bottom: 0; }
-    input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.6; cursor: pointer; }
+    .modal-grid { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 16px; 
+      margin-bottom: 28px;
+    }
+    @media (max-width: 600px) { 
+      .modal-grid { 
+        grid-template-columns: 1fr; 
+        gap: 12px;
+      } 
+    }
+    .form-group label { 
+      display: block; 
+      font-family: var(--font-head); 
+      font-size: 0.8rem; 
+      color: var(--muted); 
+      margin-bottom: 8px; 
+      text-transform: uppercase; 
+      letter-spacing: 0.12em; 
+      font-weight: 800;
+    }
+    .modal-content input, .modal-content select { 
+      margin-bottom: 0;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator { 
+      filter: invert(1); 
+      opacity: 0.6; 
+      cursor: pointer;
+    }
     .btn-cancel, .btn-save {
-      flex: 1; padding: 12px; border-radius: 6px; font-family: var(--font-head);
-      font-weight: 700; font-size: 1rem; text-transform: uppercase; cursor: pointer; letter-spacing: 0.1em; transition: all 0.2s;
+      flex: 1; 
+      padding: 14px 20px; 
+      border-radius: 8px; 
+      font-family: var(--font-head);
+      font-weight: 800; 
+      font-size: 0.9rem; 
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      cursor: pointer; 
+      transition: all 0.3s;
     }
     .btn-cancel {
-      background: transparent; color: var(--white); border: 1px solid var(--border);
+      background: transparent; 
+      color: var(--white); 
+      border: 1px solid var(--border);
     }
-    .btn-cancel:hover { border-color: var(--white); }
+    .btn-cancel:hover { 
+      border-color: var(--white); 
+      background: rgba(255,255,255,0.05);
+    }
     .btn-save {
-      background: var(--gold); color: var(--black); border: none;
+      background: var(--gold); 
+      color: var(--black); 
+      border: none;
+      box-shadow: 0 8px 24px rgba(245, 197, 24, 0.2);
+      position: relative;
+      overflow: hidden;
     }
-    .btn-save:hover { background: #ffd740; }
+    .btn-save::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+    .btn-save:hover { 
+      background: #ffd740;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(245, 197, 24, 0.3);
+    }
+    .btn-save:hover::before { left: 100%; }
+    .modal-content > div:last-child {
+      display: flex;
+      gap: 16px;
+    }
 
-    @media (max-width: 800px) {
+    @media (max-width: 900px) {
+      nav { width: 100%; height: 80px; flex-direction: row; padding: 0 20px; gap: 20px; }
+      .nav-logo { writing-mode: horizontal-tb; transform: none; margin-top: 0; font-size: 1rem; }
+      .nav-actions { flex-direction: row; gap: 12px; margin: 0; margin-left: auto; }
+      .btn-icon { width: 40px; height: 40px; }
+      
+      .admin-container {
+        margin-left: 0;
+        margin-top: 80px;
+        padding: 40px 24px;
+      }
+      h1 { font-size: 2.4rem; }
       .fixture-list { grid-template-columns: 1fr; }
+      .modal-content { width: 95%; padding: 32px 24px; }
+    }
+    @media (max-width: 600px) {
+      .admin-container {
+        padding: 24px 16px;
+      }
+      h1 { font-size: 1.8rem; }
+      .add-team-row { grid-template-columns: 1fr; }
     }
 
     /* ── LIGHT MODE OVERRIDES ────────────────────────────── */
@@ -278,7 +570,7 @@
       --dark:    #e8e5de;
       --card:    #ffffff;
       --border:  #dcd9d2;
-      --glass-bg: rgba(255, 255, 255, 0.65);
+      --glass-bg: rgba(255, 255, 255, 0.75);
       --glass-border: rgba(0, 0, 0, 0.1);
       --white:   #080808;
       --muted:   #666666;
@@ -286,9 +578,12 @@
       --inner-badge-bg: rgba(0,0,0,0.04);
       --inner-badge-hover-bg: rgba(0,0,0,0.08);
       --inner-meta-bg: rgba(0,0,0,0.05);
-      --modal-bg: rgba(240,237,230,0.95);
-      --modal-input-bg: rgba(255,255,255,0.5);
+      --modal-bg: rgba(240,237,230,0.98);
+      --modal-input-bg: rgba(255,255,255,0.6);
     }
+    body.light-mode nav { background: linear-gradient(180deg, rgba(240,237,230,0.98), rgba(232,229,222,0.95)); }
+    body.light-mode .btn-icon { border-color: #dcd9d2; }
+    body.light-mode .btn-icon:hover { background: rgba(245, 197, 24, 0.15); }
     body.light-mode .admin-login button,
     body.light-mode .add-fixture-btn,
     body.light-mode .add-team-row button,
@@ -301,10 +596,17 @@
   </style>
 </head>
 <body>
+  <!-- ── SIDEBAR NAVIGATION ────────────────────────────────── -->
+  <nav>
+    <div class="nav-logo">FNL<span>'26</span></div>
+    <div class="nav-actions">
+      <button id="mode-toggle" class="btn-icon" aria-label="Toggle dark mode"><i data-lucide="moon"></i></button>
+    </div>
+  </nav>
+
   <div class="admin-container">
     <div class="admin-header">
       <h1>Admin Fixture Manager</h1>
-      <button id="mode-toggle" class="btn-icon" aria-label="Toggle dark mode"><i data-lucide="moon"></i></button>
     </div>
     <div class="admin-login" id="admin-login">
       <form id="admin-login-form">
