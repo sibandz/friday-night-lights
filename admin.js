@@ -419,7 +419,8 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('admin-login').style.display = 'none';
       document.getElementById('admin-content').style.display = 'block';
       await loadData();
-      renderFixtures();
+      // This will show the fixture editor and render the loaded fixtures.
+      switchTab('fixtures');
     } else {
       alert('Incorrect password');
     }
