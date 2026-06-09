@@ -11,7 +11,7 @@ export default async function handler(request, response) {
     const { rows } = await sql`SELECT data FROM fnl_data WHERE id = 'schedule';`;
 
     // If no data is found (e.g., first time running), return empty arrays.
-    const responseData = rows[0]?.data || { teams: [], fixtures: [] };
+    const responseData = rows[0]?.data || { teams: [], fixtures: [], scores: [] };
 
     // Add caching headers for performance.
     response.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');

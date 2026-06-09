@@ -2,7 +2,7 @@ import { sql } from '@vercel/postgres';
 
 // It's best practice to use an environment variable for the password.
 // You can set this in your Vercel project settings.
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'FNLHBC26';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'INTERHOUSE2025';
 
 export default async function handler(request, response) {
   if (request.method !== 'POST') {
@@ -18,7 +18,7 @@ export default async function handler(request, response) {
     if (!body) {
       return response.status(400).json({ error: 'Bad Request: Missing request body' });
     }
-    const { teams, fixtures, password } = body;
+    const { teams, fixtures, scores, password } = body;
 
     if (!password) {
       return response.status(400).json({ error: 'Missing password' });
@@ -31,7 +31,7 @@ export default async function handler(request, response) {
     }
 
     // Store the data in Vercel Postgres using a single key.
-    const dataToSave = JSON.stringify({ teams, fixtures });
+    const dataToSave = JSON.stringify({ teams, fixtures, scores: scores || [] });
     await sql`
       INSERT INTO fnl_data (id, data)
       VALUES ('schedule', ${dataToSave})

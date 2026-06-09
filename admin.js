@@ -152,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const state = {
     teams: [],
     fixtures: [],
+    scores: [],
     editingFixtureId: null,
   };
 
@@ -174,6 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       state.teams = (data && Array.isArray(data.teams)) ? data.teams : [...defaultTeams];
       const loadedFixtures = (data && Array.isArray(data.fixtures)) ? data.fixtures : [...defaultFixtures];
+      state.scores = (data && Array.isArray(data.scores)) ? data.scores : [];
 
       // Ensure all fixtures have a unique ID for robust editing/deleting
       state.fixtures = loadedFixtures.map((fx, index) => ({
@@ -188,6 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ...fx,
         id: fx.id || Date.now() + index
       }));
+      state.scores = [];
     }
   }
 
@@ -196,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const response = await fetch('/api/save-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ teams: state.teams, fixtures: state.fixtures, password: PASSWORD }),
+        body: JSON.stringify({ teams: state.teams, fixtures: state.fixtures, scores: state.scores, password: PASSWORD }),
       });
 
       if (!response.ok) {
