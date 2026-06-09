@@ -1006,6 +1006,19 @@
       margin: 0 12px;
       font-size: 1.1rem;
     }
+    .fixture-score-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 60px;
+    }
+    .fixture-score {
+      font-weight: 900;
+      color: var(--gold);
+      margin: 0 12px;
+      font-size: 1.2rem;
+      letter-spacing: 0.05em;
+    }
     .fixture-card-meta {
       display: flex;
       gap: 12px;
@@ -1390,7 +1403,7 @@
             <div class="fixture-card" data-sport="${fx.sport}" data-division="${fx.division}">
               <div class="fixture-card-header">
                 <span class="fixture-team team-${(fx.teamA || 'TBC').toLowerCase().split(' ')[0]}"><b>${fx.teamA}</b></span>
-                <span class="fixture-vs">vs</span>
+                <span class="fixture-score-display">${(fx.scoreA !== null && fx.scoreA !== undefined && fx.scoreB !== null && fx.scoreB !== undefined) ? `<span class="fixture-score">${fx.scoreA} - ${fx.scoreB}</span>` : '<span class="fixture-vs">vs</span>'}</span>
                 <span class="fixture-team team-${(fx.teamB || 'TBC').toLowerCase().split(' ')[0]}"><b>${fx.teamB}</b></span>
               </div>
               <div class="fixture-card-meta">
