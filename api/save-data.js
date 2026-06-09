@@ -11,9 +11,10 @@ export default async function handler(request, response) {
   }
 
   try {
-    // Vercel automatically parses JSON request bodies when the
-    // 'Content-Type' header is 'application/json'.
-    const body = request.body;
+    // Explicitly parse the JSON body. Vercel's Node.js runtime provides the
+    // body as a stream, which needs to be consumed.
+    // If the body is not valid JSON, this will throw an error which is caught below.
+    const body = await request.json();
 
     if (!body) {
       return response.status(400).json({ error: 'Bad Request: Missing request body' });
@@ -47,6 +48,11 @@ export default async function handler(request, response) {
       message: error.message,
       stack: error.stack,
     });
+
+    // Handle JSON parsing errors specifically.
+    if (error instanceof SyntaxError) {
+      return response.status(400).json({ error: 'Bad Request: Invalid JSON format in request body.' });
+    }
 
     // Provide a more specific error message to the client.
     if (error.message.includes('relation "fnl_data" does not exist')) {
