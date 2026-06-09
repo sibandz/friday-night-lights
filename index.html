@@ -13,16 +13,16 @@
   <style>
     /* ── TOKENS ─────────────────────────────────────────── */
     :root {
-      --black:   #080808;
-      --dark:    #0f0f0f;
-      --card:    #141414;
-      --border:  #222222;
-      --glass-bg: rgba(20, 20, 20, 0.6);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --gold:    #f5c518;
-      --amber:   #ff8c00;
-      --white:   #f0ede6; 
-      --muted:   #888888;
+      --black:   #001F3F;
+      --dark:    #002D5C;
+      --card:    #0D1F3C;
+      --border:  #1A3A52;
+      --glass-bg: rgba(13, 31, 60, 0.6);
+      --glass-border: rgba(255, 215, 0, 0.15);
+      --gold:    #FFD700;
+      --amber:   #FFA500;
+      --white:   #FFFFFF; 
+      --muted:   #999999;
       --weaver-yellow: #FFD700;
       --starling-blue: #87CEEB;
       --taraco-green: #2E8B57;
@@ -35,13 +35,13 @@
 
     /* ── LIGHT/DARK MODE ───────────────────────────── */
     body.light-mode {
-      --black:   #f0ede6;
-      --dark:    #e8e5de;
-      --card:    #ffffff;
-      --border:  #dcd9d2;
-      --glass-bg: rgba(255, 255, 255, 0.65);
-      --glass-border: rgba(0, 0, 0, 0.1);
-      --white:   #080808;
+      --black:   #FFFFFF;
+      --dark:    #F5F5F5;
+      --card:    #F9F9F9;
+      --border:  #E0E0E0;
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(0, 31, 63, 0.1);
+      --white:   #001F3F;
       --muted:   #666666;
     }
     body.light-mode nav { background: linear-gradient(to bottom, rgba(240,237,230,0.95), transparent); }
@@ -1115,40 +1115,41 @@
         <div class="sport-card netball" onclick="filterSchedule('netball', 'all')">
           <svg class="sport-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 0 20M2 12a15.3 15.3 0 0 1 20 0"/></svg>
           <div class="sport-name">NETBALL</div>
-          <div class="sport-gender">Girls Only</div>
+          <div class="sport-gender">All Ages</div>
           <div class="divisions">
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('netball', 'u7')">
+              <span class="dot"></span>
+              <span>U7</span>
+              <small>Under 7</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('netball', 'u8')">
+              <span class="dot"></span>
+              <span>U8</span>
+              <small>Under 8</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('netball', 'u9')">
+              <span class="dot"></span>
+              <span>U9</span>
+              <small>Under 9</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('netball', 'u10')">
+              <span class="dot"></span>
+              <span>U10</span>
+              <small>Under 10</small>
+            </div>
             <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('netball', 'u11')">
               <span class="dot"></span>
-              <span>Girls U11</span>
+              <span>U11</span>
               <small>Under 11</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('netball', 'u12')">
+              <span class="dot"></span>
+              <span>U12</span>
+              <small>Under 12</small>
             </div>
             <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('netball', 'u13')">
               <span class="dot"></span>
-              <span>Girls U13</span>
-              <small>Under 13</small>
-            </div>
-            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('netball', 'u19')">
-              <span class="dot"></span>
-              <span>Girls U19</span>
-              <small>Under 19</small>
-            </div>
-          </div>
-        </div>
-
-        <!-- HOCKEY -->
-        <div class="sport-card hockey" onclick="filterSchedule('hockey', 'all')">
-          <svg class="sport-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 22a2.5 2.5 0 0 1-4-3.5l8-8a2.5 2.5 0 0 1 3.5 4l-7.5 7.5Z"/><circle cx="6" cy="6" r="2"/></svg>
-          <div class="sport-name">HOCKEY</div>
-          <div class="sport-gender">Girls &amp; Boys U13</div>
-          <div class="divisions">
-            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('hockey', 'u13g')">
-              <span class="dot"></span>
-              <span>Girls U13</span>
-              <small>Under 13</small>
-            </div>
-            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('hockey', 'u13b')">
-              <span class="dot"></span>
-              <span>Boys U13</span>
+              <span>U13</span>
               <small>Under 13</small>
             </div>
           </div>
@@ -1158,27 +1159,47 @@
         <div class="sport-card football" onclick="filterSchedule('football', 'all')">
           <svg class="sport-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 12 7.5 9.5M12 12l4.5-2.5M12 12v5M7.5 9.5 8 4M16.5 9.5 16 4M12 17l-4.5 2.5M12 17l4.5 2.5"/></svg>
           <div class="sport-name">FOOTBALL</div>
-          <div class="sport-gender">Boys &amp; Girls</div>
+          <div class="sport-gender">All Ages</div>
           <div class="divisions">
-            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u11b')">
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u7')">
               <span class="dot"></span>
-              <span>Boys U11</span>
+              <span>U7</span>
+              <small>Under 7</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u8')">
+              <span class="dot"></span>
+              <span>U8</span>
+              <small>Under 8</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u9')">
+              <span class="dot"></span>
+              <span>U9</span>
+              <small>Under 9</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u10')">
+              <span class="dot"></span>
+              <span>U10</span>
+              <small>Under 10</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u11')">
+              <span class="dot"></span>
+              <span>U11</span>
               <small>Under 11</small>
             </div>
-            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u13b')">
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u12')">
               <span class="dot"></span>
-              <span>Boys U13</span>
+              <span>U12</span>
+              <small>Under 12</small>
+            </div>
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u13')">
+              <span class="dot"></span>
+              <span>U13</span>
               <small>Under 13</small>
             </div>
-            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u19b')">
+            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'all-star')">
               <span class="dot"></span>
-              <span>Boys U19</span>
-              <small>Under 19</small>
-            </div>
-            <div class="division-pill" onclick="event.stopPropagation(); filterSchedule('football', 'u19g')">
-              <span class="dot"></span>
-              <span>Girls U19</span>
-              <small>Under 19</small>
+              <span>U13 All-Stars</span>
+              <small>vs Coaches</small>
             </div>
           </div>
         </div>
