@@ -392,8 +392,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('modal-date').value = fx.date;
     document.getElementById('modal-time').value = fx.time;
-    document.getElementById('modal-scoreA').value = fx.scoreA || '';
-    document.getElementById('modal-scoreB').value = fx.scoreB || '';
+    document.getElementById('modal-scoreA').value = (fx.scoreA !== null && fx.scoreA !== undefined) ? fx.scoreA : '';
+    document.getElementById('modal-scoreB').value = (fx.scoreB !== null && fx.scoreB !== undefined) ? fx.scoreB : '';
     document.getElementById('modal-status').value = fx.status.toLowerCase();
     document.getElementById('modal-type').value = fx.type;
     document.getElementById('modal-venue').value = fx.venue || '';
@@ -435,8 +435,14 @@ document.addEventListener('DOMContentLoaded', function() {
       teamB: document.getElementById('modal-teamB').value,
       date: document.getElementById('modal-date').value,
       time: document.getElementById('modal-time').value || 'TBD',
-      scoreA: document.getElementById('modal-scoreA').value ? parseInt(document.getElementById('modal-scoreA').value) : null,
-      scoreB: document.getElementById('modal-scoreB').value ? parseInt(document.getElementById('modal-scoreB').value) : null,
+      scoreA: (() => {
+        const val = parseInt(document.getElementById('modal-scoreA').value, 10);
+        return isNaN(val) ? null : val;
+      })(),
+      scoreB: (() => {
+        const val = parseInt(document.getElementById('modal-scoreB').value, 10);
+        return isNaN(val) ? null : val;
+      })(),
       status: document.getElementById('modal-status').value,
       type: document.getElementById('modal-type').value,
       venue: document.getElementById('modal-venue').value || 'TBC'
