@@ -20,6 +20,11 @@
       --inner-meta-bg: rgba(0,0,0,0.3);
       --modal-bg: rgba(15,15,15,0.9);
       --modal-input-bg: rgba(0,0,0,0.4);
+      --starling-blue: #87CEEB;
+      --taraco-green: #2E8B57;
+      --berbet-red: #DC143C;
+      --weaver-yellow: var(--gold, #f5c518);
+
     }
     body::before {
       content: '';
@@ -191,6 +196,12 @@
       transform: translateY(-6px);
       box-shadow: 0 12px 40px rgba(245, 197, 24, 0.15);
     }
+    .team-weaver { color: var(--weaver-yellow); }
+    .team-starling { color: var(--starling-blue); }
+    .team-taraco { color: var(--taraco-green); }
+    .team-berbet { color: var(--berbet-red); }
+    .team-u13, .team-coaches { color: var(--white); }
+
     .fixture-header {
       display: flex;
       align-items: center;

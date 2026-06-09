@@ -4,57 +4,41 @@ document.addEventListener('DOMContentLoaded', function() {
   const PASSWORD = 'FNLHBC26';
   const sportDivisions = {
     football: [
-      {v: 'u11b', t: 'Boys U11'}, {v: 'u13b', t: 'Boys U13'},
-      {v: 'u19b', t: 'Boys U19'}, {v: 'u19g', t: 'Girls U19'}
+      {v: 'u7', t: 'U7'}, {v: 'u8', t: 'U8'}, {v: 'u9', t: 'U9'},
+      {v: 'u10', t: 'U10'}, {v: 'u11', t: 'U11'}, {v: 'u12', t: 'U12'},
+      {v: 'u13', t: 'U13'}, {v: 'all-star', t: 'All-Star Match'}
     ],
     netball: [
-      {v: 'u11', t: 'Girls U11'}, {v: 'u13', t: 'Girls U13'}, {v: 'u19', t: 'Girls U19'}
-    ],
-    hockey: [
-      {v: 'u13g', t: 'Girls U13'}, {v: 'u13b', t: 'Boys U13'}
+      {v: 'u7', t: 'U7'}, {v: 'u8', t: 'U8'}, {v: 'u9', t: 'U9'},
+      {v: 'u10', t: 'U10'}, {v: 'u11', t: 'U11'}, {v: 'u12', t: 'U12'},
+      {v: 'u13', t: 'U13'}
     ]
   };
-  const defaultTeams = [
-    { id: 1, name: 'Cooper College', sport: 'netball', division: 'u19' },
-    { id: 2, name: 'Northriding College', sport: 'netball', division: 'u19' },
-    { id: 3, name: 'Croyden House', sport: 'netball', division: 'u13' },
-    { id: 4, name: 'HeronBridge College 2', sport: 'netball', division: 'u13' },
-    { id: 5, name: 'HeronBridge College 2', sport: 'hockey', division: 'u13g' },
-    { id: 6, name: 'Cooper College', sport: 'hockey', division: 'u13g' },
-    { id: 7, name: 'HeronBridge College 1', sport: 'hockey', division: 'u13b' },
-    { id: 8, name: 'Croyden House', sport: 'hockey', division: 'u13b' },
-    { id: 9, name: 'HeronBridge Gold', sport: 'football', division: 'u11b' },
-    { id: 10, name: 'Northriding College', sport: 'football', division: 'u11b' },
-    { id: 11, name: 'HeronBridge White', sport: 'football', division: 'u11b' },
-    { id: 12, name: 'Cooper College', sport: 'football', division: 'u11b' },
-    { id: 13, name: 'Croyden House', sport: 'football', division: 'u11b' },
-    { id: 14, name: 'HeronBridge Gold', sport: 'football', division: 'u13b' },
-    { id: 15, name: 'HeronBridge White', sport: 'football', division: 'u13b' },
-    { id: 16, name: 'Northriding College', sport: 'football', division: 'u13b' },
-    { id: 17, name: 'Curro Roodeplaat', sport: 'football', division: 'u13b' },
-    { id: 18, name: 'Cooper College', sport: 'football', division: 'u13b' },
-    { id: 19, name: 'Croyden House', sport: 'football', division: 'u13b' },
-    { id: 20, name: 'HeronBridge', sport: 'football', division: 'u19g' },
-    { id: 21, name: 'Curro Victory Park', sport: 'football', division: 'u19g' },
-    { id: 22, name: 'Curro Edenvale', sport: 'football', division: 'u19g' },
-    { id: 23, name: 'Tentative', sport: 'football', division: 'u19g' },
-    { id: 24, name: 'HeronBridge', sport: 'football', division: 'u19b' },
-    { id: 25, name: 'Curro Victory Park', sport: 'football', division: 'u19b' },
-    { id: 26, name: 'Northriding College', sport: 'football', division: 'u19b' },
-    { id: 27, name: 'Croyden House', sport: 'football', division: 'u19b' },
-    { id: 28, name: 'St Dustans', sport: 'football', division: 'u19b' },
-    { id: 29, name: 'Curro Midrand Yellow', sport: 'football', division: 'u19b' },
-    { id: 30, name: 'Curro Midrand Grey', sport: 'football', division: 'u19b' },
-    { id: 31, name: 'Curro Midrand Green', sport: 'football', division: 'u19b' },
-    { id: 32, name: 'Curro Midrand Blue', sport: 'football', division: 'u19b' },
-  ];
+
+  const houses = ['Weaver', 'Starling', 'Taraco', 'Berbet'];
+  const ageGroups = ['u7', 'u8', 'u9', 'u10', 'u11', 'u12', 'u13'];
+  const sports = ['football', 'netball'];
+  let teamIdCounter = 1;
+  const generatedTeams = [];
+  sports.forEach(sport => {
+    ageGroups.forEach(ageGroup => {
+      houses.forEach(house => {
+        generatedTeams.push({ id: teamIdCounter++, name: house, sport: sport, division: ageGroup });
+      });
+    });
+  });
+  generatedTeams.push({ id: teamIdCounter++, name: 'U13 All-Stars', sport: 'football', division: 'all-star' });
+  generatedTeams.push({ id: teamIdCounter++, name: 'Coaches', sport: 'football', division: 'all-star' });
+  const defaultTeams = generatedTeams;
+
   const defaultFixtures = [
-    { id: 1001, sport: 'football', division: 'u19b', teamA: 'Northriding College', teamB: 'HeronBridge', date: '2026-06-05', time: '17:00', status: 'upcoming', type: 'Pool A', venue: 'Main Field' },
-    { id: 1002, sport: 'football', division: 'u11b', teamA: 'HeronBridge Gold', teamB: 'Croyden House', date: '2026-06-05', time: '17:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 2' },
-    { id: 1003, sport: 'netball', division: 'u19', teamA: 'Cooper College', teamB: 'Northriding College', date: '2026-06-05', time: '17:45', status: 'upcoming', type: 'Pool A', venue: 'Court 1' },
-    { id: 1004, sport: 'netball', division: 'u13', teamA: 'Croyden House', teamB: 'HeronBridge College 2', date: '2026-06-05', time: '18:00', status: 'upcoming', type: 'Pool C', venue: 'Court 3' },
-    { id: 1005, sport: 'hockey', division: 'u13g', teamA: 'HeronBridge College 2', teamB: 'Cooper College', date: '2026-06-05', time: '18:15', status: 'upcoming', type: 'Pool A', venue: 'Astro 1' },
-    { id: 1006, sport: 'hockey', division: 'u13b', teamA: 'HeronBridge College 1', teamB: 'Croyden House', date: '2026-06-05', time: '18:30', status: 'upcoming', type: 'Pool B', venue: 'Astro 1' },
+    { id: 1001, sport: 'football', division: 'u7', teamA: 'Weaver', teamB: 'Starling', date: '2024-10-24', time: '09:00', status: 'upcoming', type: 'Round 1', venue: 'Field A' },
+    { id: 1002, sport: 'netball', division: 'u7', teamA: 'Taraco', teamB: 'Berbet', date: '2024-10-24', time: '09:00', status: 'upcoming', type: 'Round 1', venue: 'Court 1' },
+    { id: 1003, sport: 'football', division: 'u9', teamA: 'Taraco', teamB: 'Weaver', date: '2024-10-24', time: '09:30', status: 'upcoming', type: 'Round 1', venue: 'Field B' },
+    { id: 1004, sport: 'netball', division: 'u9', teamA: 'Starling', teamB: 'Berbet', date: '2024-10-24', time: '09:30', status: 'upcoming', type: 'Round 1', venue: 'Court 2' },
+    { id: 1005, sport: 'football', division: 'u13', teamA: 'Weaver', teamB: 'Berbet', date: '2024-10-24', time: '10:00', status: 'upcoming', type: 'Round 1', venue: 'Field A' },
+    { id: 1006, sport: 'netball', division: 'u13', teamA: 'Starling', teamB: 'Taraco', date: '2024-10-24', time: '10:00', status: 'upcoming', type: 'Round 1', venue: 'Court 1' },
+    { id: 1007, sport: 'football', division: 'all-star', teamA: 'U13 All-Stars', teamB: 'Coaches', date: '2024-10-24', time: '12:00', status: 'upcoming', type: 'Exhibition', venue: 'Main Field' },
   ];
 
   // --- STATE MANAGEMENT ---
@@ -186,9 +170,9 @@ document.addEventListener('DOMContentLoaded', function() {
       card.className = 'fixture-card';
       card.innerHTML = `
         <div class="fixture-header">
-          <span><b>${fx.teamA || 'TBC'}</b></span>
+          <span><b class="team-${(fx.teamA || 'TBC').toLowerCase().split(' ')[0]}">${fx.teamA || 'TBC'}</b></span>
           <span class="fixture-vs">vs</span>
-          <span><b>${fx.teamB || 'TBC'}</b></span>
+          <span><b class="team-${(fx.teamB || 'TBC').toLowerCase().split(' ')[0]}">${fx.teamB || 'TBC'}</b></span>
         </div>
         <div class="fixture-meta">
           <span class="fixture-status">${(fx.status || 'upcoming').toUpperCase()}</span>
@@ -322,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDivisions('modal-sport', 'modal-division');
     updateModalTeams();
 
-    document.getElementById('modal-date').value = '2026-06-05';
+    document.getElementById('modal-date').value = '2024-10-24';
     document.getElementById('modal-status').value = 'upcoming';
     modalTitle.textContent = 'Add Fixture';
     fixtureModal.style.display = 'flex';
